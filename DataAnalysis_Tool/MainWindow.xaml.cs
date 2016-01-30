@@ -24,6 +24,8 @@ namespace DataAnalysis_Tool
     {
         private double[] dataEntries;
 
+        public IList<DataPoint> Points { get; private set; }
+
         public MainWindow()
         {
             InitializeComponent();
@@ -61,6 +63,18 @@ namespace DataAnalysis_Tool
         //Save graph to png
         private void Button_Click_2(object sender, RoutedEventArgs e)
         {
+            Type t = typeof(ActionsPieChart.ActionsPieChartWindow);
+            GraphsOpener graph = new GraphsOpener(t);
+
+            if (graph != null)
+            {
+                var window = graph.Create();
+                window.Show();
+            }
+        }
+
+        private void CreateGraphWindow(object sender)
+        {
 
         }
 
@@ -80,21 +94,8 @@ namespace DataAnalysis_Tool
 
             file.Close();
 
-            this.Points = new List<DataPoint>
-                                {
-                                    new DataPoint(0, dataEntries[0]),
-                                    new DataPoint(1, dataEntries[1]),
-                                    new DataPoint(2, dataEntries[2]),
-                                    new DataPoint(3, dataEntries[3]),
-                                    new DataPoint(4, dataEntries[4]),
-                                    new DataPoint(5, dataEntries[5]),
-                                    new DataPoint(6, dataEntries[6])
-                                };
-
             ImportMessage.Text = "Import successful. There were " + counter + " events.";
         }
-
-        public IList<DataPoint> Points { get; private set; }
 
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
         {

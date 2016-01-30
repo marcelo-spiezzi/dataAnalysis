@@ -1,14 +1,66 @@
 ﻿<Window x:Class="DataAnalysis_Tool.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="MainWindow" Height="350" Width="525">
-    <Grid Margin="0,0,0,0" Background="#FFEDEDED">
-        <Rectangle Fill="#FFFAFAFA" HorizontalAlignment="Left" Height="261" Margin="10,10,0,0" Stroke="#FFC2C2C2" VerticalAlignment="Top" Width="498"/>
-        <Button Content="Generate" HorizontalAlignment="Left" Margin="345,291,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click_1"/>
-        <Button Content="Browse" HorizontalAlignment="Left" Margin="254,291,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click"/>
-        <Button Content="Save" HorizontalAlignment="Left" Margin="433,291,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click_2"/>
-        <TextBox x:Name="filePath" HorizontalAlignment="Left" Height="23" Margin="10,291,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="224" TextChanged="TextBox_TextChanged"/>
-        <TextBlock x:Name="ImportMessage" HorizontalAlignment="Left" Margin="26,19,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top" Height="17" Width="471"/>
+        Title="MainWindow" Height="742.075" Width="1068.2">
+    <Grid Margin="0,0,-0.4,0.2" Background="#FFEDEDED">
+        <Rectangle Fill="Gainsboro" HorizontalAlignment="Left" Height="204" Margin="686,500,0,0" Stroke="#FFC2C2C2" VerticalAlignment="Top" Width="366"/>
+
+        <Rectangle Fill="Gainsboro" HorizontalAlignment="Left" Height="131" Margin="10,500,0,0" Stroke="#FFC2C2C2" VerticalAlignment="Top" Width="658"/>
+
+        <Rectangle Fill="Gainsboro" HorizontalAlignment="Left" Height="489" Margin="10,0,0,0" Stroke="#FFC2C2C2" VerticalAlignment="Top" Width="1042"/>
+
+        <Button Content="Generate" HorizontalAlignment="Left" Margin="582,681,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click_1"/>
+        <Button Content="Browse" HorizontalAlignment="Left" Margin="356,653,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click"/>
+        <Button Content="Create Report" HorizontalAlignment="Left" Margin="545,600,0,0" VerticalAlignment="Top" Width="112" Click="Button_Click_2"/>
+        <TextBox x:Name="filePath" HorizontalAlignment="Left" Height="23" Margin="10,652,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="328" TextChanged="TextBox_TextChanged"/>
+        <TextBlock x:Name="ImportMessage" HorizontalAlignment="Right" Margin="0,685,494,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="17" Width="557" TextAlignment="Right"/>
+        <TextBlock HorizontalAlignment="Left" Margin="10,636,0,0" TextWrapping="Wrap" Text="File path:" VerticalAlignment="Top"/>
+        <Button Content="Actions Distribution" HorizontalAlignment="Left" Margin="897,542,0,0" VerticalAlignment="Top" Width="114" Click="Button_Click_2" Height="64"/>
+        <Button Content="Actions Over Time" HorizontalAlignment="Left" Margin="748,542,0,0" VerticalAlignment="Top" Width="114" Click="Button_Click_2" Height="64"/>
+        <Button Content="K-means" HorizontalAlignment="Left" Margin="748,626,0,0" VerticalAlignment="Top" Width="114" Click="Button_Click_2" Height="64"/>
+        <Button Content="SVM" HorizontalAlignment="Left" Margin="897,626,0,0" VerticalAlignment="Top" Width="114" Click="Button_Click_2" Height="64"/>
+        <TextBlock x:Name="textBlock" HorizontalAlignment="Left" Margin="18,10,0,0" TextWrapping="Wrap" Text="Equipment used for mining" VerticalAlignment="Top" Width="180"/>
+        <TextBlock x:Name="textBlock_Copy" HorizontalAlignment="Left" Margin="229,10,0,0" TextWrapping="Wrap" Text="Mined Materials" VerticalAlignment="Top" Width="180"/>
+        <TextBlock x:Name="textBlock_Copy1" HorizontalAlignment="Left" Margin="439,10,0,0" TextWrapping="Wrap" Text="Building Materials" VerticalAlignment="Top" Width="180"/>
+        <TextBlock x:Name="textBlock_Copy2" HorizontalAlignment="Left" Margin="649,10,0,0" TextWrapping="Wrap" Text="Harvesting Equipment" VerticalAlignment="Top" Width="180"/>
+        <TextBlock x:Name="textBlock_Copy3" HorizontalAlignment="Left" Margin="858,10,0,0" TextWrapping="Wrap" Text="Harvested Objects" VerticalAlignment="Top" Width="180"/>
+        <TextBlock x:Name="textBlock_Copy4" HorizontalAlignment="Left" Margin="18,251,0,0" TextWrapping="Wrap" Text="Crafted Objects" VerticalAlignment="Top" Width="180"/>
+        <TextBlock x:Name="textBlock_Copy5" HorizontalAlignment="Left" Margin="229,251,0,0" TextWrapping="Wrap" Text="Planted Seeds" VerticalAlignment="Top" Width="180"/>
+        <TextBlock x:Name="textBlock_Copy6" HorizontalAlignment="Left" Margin="439,251,0,0" TextWrapping="Wrap" Text="Hunted Creatures" VerticalAlignment="Top" Width="180"/>
+        <TextBlock x:Name="textBlock_Copy7" HorizontalAlignment="Left" Margin="649,251,0,0" TextWrapping="Wrap" Text="Consumed Objects by category" VerticalAlignment="Top" Width="180"/>
+        <TextBlock x:Name="textBlock_Copy8" HorizontalAlignment="Left" Margin="858,251,0,0" TextWrapping="Wrap" Text="Consumed Objects" VerticalAlignment="Top" Width="180"/>
+        <TextBlock HorizontalAlignment="Left" Margin="748,504,0,0" TextWrapping="Wrap" Text="Visualize Graphs" VerticalAlignment="Top" Width="263" TextAlignment="Center" Height="29" FontSize="18.667"/>
+        <TextBlock x:Name="textBlock1" HorizontalAlignment="Left" Margin="18,512,0,0" TextWrapping="Wrap" Text="Player Name:" VerticalAlignment="Top" Width="117"/>
+        <TextBlock x:Name="textBlock1_Copy" HorizontalAlignment="Left" Margin="17,569,0,0" TextWrapping="Wrap" Text="Session Lenght:" VerticalAlignment="Top" Width="118"/>
+        <TextBlock x:Name="textBlock1_Copy1" HorizontalAlignment="Left" Margin="18,539,0,0" TextWrapping="Wrap" Text="Session ID:" VerticalAlignment="Top" Width="117"/>
+        <TextBlock x:Name="textBlock1_Copy2" HorizontalAlignment="Left" Margin="17,599,0,0" TextWrapping="Wrap" Text="Total # of Events:" VerticalAlignment="Top" Width="118"/>
+        <TextBlock x:Name="textBlock1_Copy3" HorizontalAlignment="Left" Margin="344,513,0,0" TextWrapping="Wrap" Text="Unique Biomes:" VerticalAlignment="Top" Width="118"/>
+        <TextBlock x:Name="textBlock1_Copy4" HorizontalAlignment="Left" Margin="344,540,0,0" TextWrapping="Wrap" Text="Traveled Distance:" VerticalAlignment="Top" Width="118"/>
+        <TextBlock x:Name="textBlock1_Copy5" HorizontalAlignment="Left" Margin="344,570,0,0" TextWrapping="Wrap" Text="Avg. walking speed:" VerticalAlignment="Top" Width="118"/>
+        <TextBlock x:Name="textBlock1_Copy6" HorizontalAlignment="Left" Margin="123,512,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="195" Background="White" Height="19"/>
+        <TextBlock x:Name="textBlock1_Copy7" HorizontalAlignment="Left" Margin="123,543,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="195" Background="White" Height="19"/>
+        <TextBlock x:Name="textBlock1_Copy8" HorizontalAlignment="Left" Margin="123,572,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="195" Background="White" Height="19"/>
+        <TextBlock x:Name="textBlock1_Copy9" HorizontalAlignment="Left" Margin="123,599,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="195" Background="White" Height="19"/>
+        <TextBlock x:Name="textBlock1_Copy10" HorizontalAlignment="Left" Margin="123,512,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="195" Background="White" Height="19"/>
+        <TextBlock x:Name="textBlock1_Copy11" HorizontalAlignment="Left" Margin="123,539,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="195" Background="White" Height="19"/>
+        <TextBlock x:Name="textBlock1_Copy12" HorizontalAlignment="Left" Margin="123,569,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="195" Background="White" Height="19"/>
+        <TextBlock x:Name="textBlock1_Copy13" HorizontalAlignment="Left" Margin="462,572,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="195" Background="White" Height="19"/>
+        <TextBlock x:Name="textBlock1_Copy14" HorizontalAlignment="Left" Margin="462,512,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="195" Background="White" Height="19"/>
+        <TextBlock x:Name="textBlock1_Copy15" HorizontalAlignment="Left" Margin="462,541,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="195" Background="White" Height="19"/>
+        <CheckBox x:Name="checkBox" Content="Session" HorizontalAlignment="Left" Margin="450,656,0,0" VerticalAlignment="Top"/>
+        <CheckBox x:Name="checkBox_Copy" Content="Kmeans" HorizontalAlignment="Left" Margin="531,656,0,0" VerticalAlignment="Top"/>
+        <CheckBox x:Name="checkBox_Copy1" Content="SVM" HorizontalAlignment="Left" Margin="615,656,0,0" VerticalAlignment="Top"/>
+        <TextBlock HorizontalAlignment="Left" Margin="450,636,0,0" TextWrapping="Wrap" Text="File type:" VerticalAlignment="Top"/>
+        <ListBox x:Name="listBox" HorizontalAlignment="Left" Height="198" Margin="18,31,0,0" VerticalAlignment="Top" Width="180"/>
+        <ListBox x:Name="listBox_Copy" HorizontalAlignment="Left" Height="198" Margin="229,31,0,0" VerticalAlignment="Top" Width="180"/>
+        <ListBox x:Name="listBox_Copy1" HorizontalAlignment="Left" Height="198" Margin="438,31,0,0" VerticalAlignment="Top" Width="180"/>
+        <ListBox x:Name="listBox_Copy2" HorizontalAlignment="Left" Height="198" Margin="649,31,0,0" VerticalAlignment="Top" Width="180"/>
+        <ListBox x:Name="listBox_Copy3" HorizontalAlignment="Left" Height="198" Margin="858,31,0,0" VerticalAlignment="Top" Width="180"/>
+        <ListBox x:Name="listBox_Copy4" HorizontalAlignment="Left" Height="198" Margin="18,276,0,0" VerticalAlignment="Top" Width="180"/>
+        <ListBox x:Name="listBox_Copy5" HorizontalAlignment="Left" Height="198" Margin="229,276,0,0" VerticalAlignment="Top" Width="180"/>
+        <ListBox x:Name="listBox_Copy6" HorizontalAlignment="Left" Height="198" Margin="438,276,0,0" VerticalAlignment="Top" Width="180"/>
+        <ListBox x:Name="listBox_Copy7" HorizontalAlignment="Left" Height="198" Margin="649,276,0,0" VerticalAlignment="Top" Width="180"/>
+        <ListBox x:Name="listBox_Copy8" HorizontalAlignment="Left" Height="198" Margin="858,276,0,0" VerticalAlignment="Top" Width="180"/>
 
     </Grid>
 </Window>
