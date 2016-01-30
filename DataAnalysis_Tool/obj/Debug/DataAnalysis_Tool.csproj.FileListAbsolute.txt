@@ -1,7 +1,6 @@
 D:\Classes Assignemtns\Thesis\DataAnalysis_Project\Thesis_Raimbault\DataAnalysis_Tool\DataAnalysis_Tool\bin\Debug\DataAnalysis_Tool.exe.config
 D:\Classes Assignemtns\Thesis\DataAnalysis_Project\Thesis_Raimbault\DataAnalysis_Tool\DataAnalysis_Tool\bin\Debug\DataAnalysis_Tool.exe
 D:\Classes Assignemtns\Thesis\DataAnalysis_Project\Thesis_Raimbault\DataAnalysis_Tool\DataAnalysis_Tool\bin\Debug\DataAnalysis_Tool.pdb
-D:\Classes Assignemtns\Thesis\DataAnalysis_Project\Thesis_Raimbault\DataAnalysis_Tool\DataAnalysis_Tool\obj\Debug\DataAnalysis_Tool.csprojResolveAssemblyReference.cache
 D:\Classes Assignemtns\Thesis\DataAnalysis_Project\Thesis_Raimbault\DataAnalysis_Tool\DataAnalysis_Tool\obj\Debug\MainWindow.baml
 D:\Classes Assignemtns\Thesis\DataAnalysis_Project\Thesis_Raimbault\DataAnalysis_Tool\DataAnalysis_Tool\obj\Debug\MainWindow.g.cs
 D:\Classes Assignemtns\Thesis\DataAnalysis_Project\Thesis_Raimbault\DataAnalysis_Tool\DataAnalysis_Tool\obj\Debug\App.g.cs
@@ -12,7 +11,6 @@ D:\Classes Assignemtns\Thesis\DataAnalysis_Project\Thesis_Raimbault\DataAnalysis
 D:\Classes Assignemtns\Thesis\DataAnalysis_Project\Thesis_Raimbault\DataAnalysis_Tool\DataAnalysis_Tool\obj\Debug\DataAnalysis_Tool.exe
 D:\Classes Assignemtns\Thesis\DataAnalysis_Project\Thesis_Raimbault\DataAnalysis_Tool\DataAnalysis_Tool\obj\Debug\DataAnalysis_Tool.pdb
 D:\Classes Assignemtns\Thesis\DataAnalysis_Project\Thesis_Raimbault\DataAnalysis_Tool\DataAnalysis_Tool\bin\Debug\OxyPlot.dll
-D:\Classes Assignemtns\Thesis\DataAnalysis_Project\Thesis_Raimbault\DataAnalysis_Tool\DataAnalysis_Tool\obj\Debug\GeneratedInternalTypeHelper.g.cs
 D:\Classes Assignemtns\Thesis\DataAnalysis_Project\Thesis_Raimbault\DataAnalysis_Tool\DataAnalysis_Tool\bin\Debug\OxyPlot.Wpf.dll
 D:\Classes Assignemtns\Thesis\DataAnalysis_Project\Thesis_Raimbault\DataAnalysis_Tool\DataAnalysis_Tool\bin\Debug\OxyPlot.Xps.dll
 D:\Classes Assignemtns\Thesis\DataAnalysis_Project\Thesis_Raimbault\DataAnalysis_Tool\DataAnalysis_Tool\bin\Debug\OxyPlot.pdb
@@ -23,3 +21,4 @@ D:\Classes Assignemtns\Thesis\DataAnalysis_Project\Thesis_Raimbault\DataAnalysis
 D:\Classes Assignemtns\Thesis\DataAnalysis_Project\Thesis_Raimbault\DataAnalysis_Tool\DataAnalysis_Tool\bin\Debug\OxyPlot.Xps.xml
 D:\Classes Assignemtns\Thesis\DataAnalysis_Project\Thesis_Raimbault\DataAnalysis_Tool\DataAnalysis_Tool\obj\Debug\ActionsPieChart\ActionsPieChartWindow.baml
 D:\Classes Assignemtns\Thesis\DataAnalysis_Project\Thesis_Raimbault\DataAnalysis_Tool\DataAnalysis_Tool\obj\Debug\ActionsPieChart\ActionsPieChartWindow.g.cs
+D:\Classes Assignemtns\Thesis\DataAnalysis_Project\Thesis_Raimbault\DataAnalysis_Tool\DataAnalysis_Tool\obj\Debug\DataAnalysis_Tool.csprojResolveAssemblyReference.cache
