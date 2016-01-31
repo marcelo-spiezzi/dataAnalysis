@@ -22,3 +22,7 @@ D:\Classes Assignemtns\Thesis\DataAnalysis_Project\Thesis_Raimbault\DataAnalysis
 D:\Classes Assignemtns\Thesis\DataAnalysis_Project\Thesis_Raimbault\DataAnalysis_Tool\DataAnalysis_Tool\obj\Debug\ActionsPieChart\ActionsPieChartWindow.baml
 D:\Classes Assignemtns\Thesis\DataAnalysis_Project\Thesis_Raimbault\DataAnalysis_Tool\DataAnalysis_Tool\obj\Debug\ActionsPieChart\ActionsPieChartWindow.g.cs
 D:\Classes Assignemtns\Thesis\DataAnalysis_Project\Thesis_Raimbault\DataAnalysis_Tool\DataAnalysis_Tool\obj\Debug\DataAnalysis_Tool.csprojResolveAssemblyReference.cache
+D:\Classes Assignemtns\Thesis\DataAnalysis_Project\Thesis_Raimbault\DataAnalysis_Tool\DataAnalysis_Tool\obj\Debug\ModeSelectWindow.baml
+D:\Classes Assignemtns\Thesis\DataAnalysis_Project\Thesis_Raimbault\DataAnalysis_Tool\DataAnalysis_Tool\obj\Debug\ModeSelectWindow.g.cs
+D:\Classes Assignemtns\Thesis\DataAnalysis_Project\Thesis_Raimbault\DataAnalysis_Tool\DataAnalysis_Tool\obj\Debug\OverallSessionsWindow.baml
+D:\Classes Assignemtns\Thesis\DataAnalysis_Project\Thesis_Raimbault\DataAnalysis_Tool\DataAnalysis_Tool\obj\Debug\OverallSessionsWindow.g.cs

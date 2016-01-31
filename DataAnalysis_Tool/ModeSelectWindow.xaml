@@ -1,0 +1,16 @@
+﻿<Window x:Class="DataAnalysis_Tool.ModeSelectWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="ModeSelectWindow" Height="298.8" Width="349.6">
+    <Grid>
+        <Grid.Background>
+            <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}"/>
+        </Grid.Background>
+        <Button Content="Unique Session" HorizontalAlignment="Left" Margin="49,102,0,109.2" VerticalAlignment="Top" Width="104" Height="44" Click="Button_Click"/>
+        <Button Content="Multiple Sessions" HorizontalAlignment="Right" Margin="0,102,61.2,109.2" VerticalAlignment="Top" Width="104" Height="44" Click="Button_Click_1"/>
+        <Button Content="K-means" HorizontalAlignment="Left" Margin="49,179,0,0" VerticalAlignment="Top" Width="104" Height="44" Click="Button_Click_2"/>
+        <TextBlock Margin="0,31,0.2,0" TextWrapping="Wrap" Text="What do you want to analyze?" VerticalAlignment="Top" TextAlignment="Center" Height="32" FontSize="20"/>
+        <Button Content="SVM" HorizontalAlignment="Right" Margin="0,179,61.2,0" VerticalAlignment="Top" Width="104" Height="44" Click="Button_Click_3"/>
+
+    </Grid>
+</Window>

@@ -302,11 +302,6 @@ namespace DataAnalysis_Tool
             listTotal.Text = list.Count().ToString();
         }
 
-        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-
-        }
-
         private void ClickAddFile(object sender, RoutedEventArgs e)
         {
             outputSessionToTextFile();
@@ -332,6 +327,13 @@ namespace DataAnalysis_Tool
         private void ClickActionsDistribution(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        private void ReturnToMainButton(object sender, RoutedEventArgs e)
+        {
+            ModeSelectWindow win = new ModeSelectWindow();
+            win.Show();
+            this.Close();
         }
 
     }
