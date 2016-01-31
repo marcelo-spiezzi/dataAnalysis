@@ -20,7 +20,7 @@
         <Button x:Name="BrowseInput" Content="Browse" HorizontalAlignment="Left" Margin="356,382.6,0,0" VerticalAlignment="Top" Width="75" Click="ButtonBrowse" Grid.Row="1"/>
         <Button x:Name="PDFReportButton" Content="Create PDF Report" HorizontalAlignment="Left" Margin="875,338.6,0,0" VerticalAlignment="Top" Width="145" Click="ClickCreateReport" Grid.Row="1" IsEnabled="False"/>
         <TextBox x:Name="filePath" HorizontalAlignment="Left" Height="23" Margin="10,381.6,0,0" TextWrapping="Wrap" Text="C:\Users\Cohort23\Desktop\Test.txt" VerticalAlignment="Top" Width="328" Grid.Row="1"/>
-        <TextBlock x:Name="ImportMessage" HorizontalAlignment="Right" Margin="0,382.6,18,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="22" Width="498" TextAlignment="Right" Grid.Row="1" FontWeight="Bold" FontSize="14"/>
+        <TextBlock x:Name="ImportMessage" HorizontalAlignment="Right" Margin="0,382.6,18,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="22" Width="416" TextAlignment="Right" Grid.Row="1" FontWeight="Bold" FontSize="14"/>
         <TextBlock HorizontalAlignment="Left" Margin="10,365.6,0,0" TextWrapping="Wrap" Text="File path:" VerticalAlignment="Top" Grid.Row="1"/>
         <Button x:Name="ActionsPieChartButton" Content="Actions Distribution" HorizontalAlignment="Left" Margin="567,306.6,0,0" VerticalAlignment="Top" Width="114" Click="ClickActionsDistribution" Height="43" Grid.Row="1" IsEnabled="False"/>
         <Button x:Name="ActionsTimeGraphButton" Content="Actions Over Time" HorizontalAlignment="Left" Margin="699,307.6,0,0" VerticalAlignment="Top" Width="114" Click="ClickActionsOverTime" Height="43" Grid.Row="1" IsEnabled="False"/>
@@ -86,12 +86,12 @@
         <TextBlock x:Name="tbDeathHealth" HorizontalAlignment="Left" Margin="673,241.6,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="140" Background="White" Height="19" Grid.Row="1"/>
         <TextBlock x:Name="tbDeathStarved" HorizontalAlignment="Left" Margin="673,270.6,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="140" Background="White" Height="19" Grid.Row="1"/>
         <TextBlock x:Name="textBlock_Copy19" HorizontalAlignment="Left" Margin="439,70.6,0,0" TextWrapping="Wrap" Text="Hunted Players" VerticalAlignment="Top" Width="180" Grid.Row="1"/>
-        <ListBox x:Name="lbHuntedPlayers" HorizontalAlignment="Left" Height="68" Margin="438,91.6,0,0" VerticalAlignment="Top" Width="180" BorderBrush="#00000000" Grid.Row="1"/>
+        <ListBox x:Name="lbHuntedPlayers" HorizontalAlignment="Left" Height="71" Margin="438,88.6,0,0" VerticalAlignment="Top" Width="180" BorderBrush="#00000000" Grid.Row="1"/>
         <TextBlock x:Name="textBlock_Copy20" HorizontalAlignment="Left" Margin="440,167.6,0,0" TextWrapping="Wrap" Text="Total:" VerticalAlignment="Top" Width="40" Grid.Row="1"/>
         <TextBlock x:Name="tbTotalHuntedPlayers" HorizontalAlignment="Left" Margin="524,169.6,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="94" Background="White" Height="19" Grid.Row="1" TextAlignment="Right"/>
         <Button x:Name="AddToOutputButton" Content="Add to output file" HorizontalAlignment="Left" Margin="941,291.6,0,0" VerticalAlignment="Top" Width="102" Click="ClickAddFile" Grid.Row="1" IsEnabled="False"/>
         <TextBox x:Name="fileOutputPath" HorizontalAlignment="Left" Height="23" Margin="830,259.6,0,0" TextWrapping="Wrap" Text="C:\Users\Cohort23\Desktop\OutputFile.txt" VerticalAlignment="Top" Width="215" Grid.Row="1"/>
-        <TextBlock HorizontalAlignment="Left" Margin="853,238.6,0,0" TextWrapping="Wrap" Text="Text file path:" VerticalAlignment="Top" Grid.Row="1" Width="105"/>
+        <TextBlock HorizontalAlignment="Left" Margin="830,238.6,0,0" TextWrapping="Wrap" Text="Output text file path:" VerticalAlignment="Top" Grid.Row="1" Width="128"/>
         <Button x:Name="BrowseOutput" Content="Browse" HorizontalAlignment="Left" Margin="853,291.6,0,0" VerticalAlignment="Top" Width="75" Click="ButtonBrowse" Grid.Row="1"/>
         <Button x:Name="Return" Content="Return" HorizontalAlignment="Left" Margin="544,382.6,0,0" VerticalAlignment="Top" Width="75" Click="ReturnToMainButton" Grid.Row="1" RenderTransformOrigin="0.5,0.5"/>
 

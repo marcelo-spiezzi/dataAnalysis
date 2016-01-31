@@ -20,20 +20,7 @@ namespace DataAnalysis_Tool
     /// </summary>
     public partial class OverallSessionsWindow : Window
     {
-        List<int> eventsIDList              = new List<int>();
-        List<int> uniqueBiomesList          = new List<int>();
-        List<double> gameplayLenghtList     = new List<double>();
-        List<double> traveledDistanceList   = new List<double>();
-        List<int> miningEventsList          = new List<int>();
-        List<int> buildingEventsList        = new List<int>();
-        List<int> harvestingEventsList      = new List<int>();
-        List<int> craftingEventsList        = new List<int>();
-        List<int> farmingEventsList         = new List<int>();
-        List<int> exploringEventsList       = new List<int>();
-        List<int> deathsEventsList          = new List<int>();
-        List<int> huntEventsList            = new List<int>();
-        List<int> fightEventsList           = new List<int>();
-        List<int> consumableEventsList      = new List<int>();
+        List<double>[] values = new List<double>[14];
 
         public OverallSessionsWindow()
         {
@@ -71,6 +58,11 @@ namespace DataAnalysis_Tool
 
             double[] totals = new double[14];
 
+            for (int y = 0; y <= 13; y++)
+            {
+                values[y] = new List<double>();
+            }     
+
             for (int i = 0; i < size; i++)
             {
                 string[] dataPoint = dataEntries[i].Split(delimiterChars);
@@ -78,23 +70,9 @@ namespace DataAnalysis_Tool
                 //0 Sessions ID, 1 Player Name,2 Session Length, 3 #events, 4 #unique biomes, 5 traveled distance, 
                 //6 #mining, 7 #building, 8 #harvesting, 9 #crafting, 10 #farming, 11 #exploring, 12 #deaths, 13 #hunt, 14 #fight, 15 #consumables
 
-                gameplayLenghtList.Add(System.Convert.ToDouble(dataPoint[2]));
-                eventsIDList.Add(System.Convert.ToInt16(dataPoint[3]));
-                uniqueBiomesList.Add(System.Convert.ToInt16(dataPoint[4]));
-                traveledDistanceList.Add(System.Convert.ToDouble(dataPoint[5]));
-                miningEventsList.Add(System.Convert.ToInt16(dataPoint[6]));
-                buildingEventsList.Add(System.Convert.ToInt16(dataPoint[7]));
-                harvestingEventsList.Add(System.Convert.ToInt16(dataPoint[8]));
-                craftingEventsList.Add(System.Convert.ToInt16(dataPoint[9]));
-                farmingEventsList.Add(System.Convert.ToInt16(dataPoint[10]));
-                exploringEventsList.Add(System.Convert.ToInt16(dataPoint[11]));
-                deathsEventsList.Add(System.Convert.ToInt16(dataPoint[12]));
-                huntEventsList.Add(System.Convert.ToInt16(dataPoint[13]));
-                fightEventsList.Add(System.Convert.ToInt16(dataPoint[14]));
-                consumableEventsList.Add(System.Convert.ToInt16(dataPoint[15]));
-
                 for (int a = 0; a <= 13; a++)
                 {
+                    values[a].Add(System.Convert.ToDouble(dataPoint[a + 2]));
                     totals[a] += System.Convert.ToDouble(dataPoint[a+2]);
                 }                   
             }
@@ -112,6 +90,16 @@ namespace DataAnalysis_Tool
                 string m = "tbMean_" + a;
                 TextBlock tb2 = FindName(m) as TextBlock;
                 tb2.Text = calculateMean(totals[a], size).ToString();
+
+                //median
+                string md = "tbMedian_" + a;
+                TextBlock tb3 = FindName(md) as TextBlock;
+                tb3.Text = calculateMedian(values[a]).ToString();
+
+                //standard deviation
+                string s = "tbDeviation_" + a;
+                TextBlock tb4 = FindName(s) as TextBlock;
+                tb4.Text = calculateStandardDeviation(values[a]).ToString();
             }
 
         }
@@ -121,18 +109,39 @@ namespace DataAnalysis_Tool
             return total/size;
         }
 
-        private float calculateMedian(List<float> list)
+        private double calculateMedian(List<double> list)
         {
-            float median = 0;
+            int size = list.Count();
+            int halfIndex = size/2;
+
+            var sortedNumbers = list.OrderBy(n => n);
+            double median;
+
+            if((size % 2) == 0){
+                median = (sortedNumbers.ElementAt(halfIndex) + sortedNumbers.ElementAt(halfIndex = 1))/2;
+            }
+            else{
+                median = sortedNumbers.ElementAt(halfIndex);
+            }
 
             return median;
         }
 
-        private float calculateStandardDeviation(List<float> list)
-        {
-            float standardDeviation = 0;
 
-            return standardDeviation;
+
+        private double calculateStandardDeviation(List<double> list)
+        {
+            double M = 0.0;
+            double S = 0.0;
+            int k = 1;
+            foreach (double value in list)
+            {
+                double tmpM = M;
+                M += (value - tmpM) / k;
+                S += (value - tmpM) * (value - M);
+                k++;
+            }
+            return Math.Sqrt(S / (k - 1));
         }
 
         Microsoft.Win32.OpenFileDialog ofd = new Microsoft.Win32.OpenFileDialog();
