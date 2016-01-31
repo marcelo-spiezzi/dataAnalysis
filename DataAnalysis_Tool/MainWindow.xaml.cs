@@ -23,6 +23,13 @@ namespace DataAnalysis_Tool
     /// </summary>
     public partial class MainWindow : Window
     {
+        List<int>       allTraveledBiomes   = new List<int>();
+        List<double[]>  eventsPositions     = new List<double[]>();
+        List<float>     eventsTimes         = new List<float>();
+        List<int>       eventsActionsID     = new List<int>();
+        int totalDeaths = 0;
+        bool firstEntry = true;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -31,7 +38,7 @@ namespace DataAnalysis_Tool
         Microsoft.Win32.OpenFileDialog ofd = new Microsoft.Win32.OpenFileDialog();
 
         //Browse for files
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void ButtonBrowse(object sender, RoutedEventArgs e)
         {
             ofd.Filter = "Text|*.txt|JSON|*.json";
             ofd.Multiselect = false;
@@ -42,7 +49,8 @@ namespace DataAnalysis_Tool
             {
                 try
                 {
-                    filePath.Text = ofd.FileName.ToString();
+                    if ((sender as Button).Name == "BrowseInput") filePath.Text = ofd.FileName.ToString();
+                    else fileOutputPath.Text = ofd.FileName.ToString();                    
                 }
                 catch (Exception ex)
                 {
@@ -52,27 +60,43 @@ namespace DataAnalysis_Tool
         }
 
         //Analyze Data
-        private void Button_Click_1(object sender, RoutedEventArgs e)
+        private void ButtonAnalyze(object sender, RoutedEventArgs e)
         {
-            analyzeData();
-        }
-
-        //Save graph to png
-        private void Button_Click_2(object sender, RoutedEventArgs e)
-        {
-            Type t = typeof(ActionsPieChart.ActionsPieChartWindow);
-            GraphsOpener graph = new GraphsOpener(t);
-
-            if (graph != null)
+            if (firstEntry)
             {
-                var window = graph.Create();
-                window.Show();
+                analyzeData();
+                firstEntry = false;
+            }
+            else
+            {
+                emptyData();
+                analyzeData();
             }
         }
-
-        private void CreateGraphWindow(object sender)
+    
+        private void outputMessageToUser(string msg)
         {
+            ImportMessage.Text = msg;
+        }
 
+        private void emptyData()
+        {
+            totalDeaths = 0;
+            allTraveledBiomes.Clear();
+            eventsPositions.Clear();
+            eventsTimes.Clear();
+            eventsActionsID.Clear();
+            lbMinEquip.Items.Clear();
+            lbMinMat.Items.Clear();
+            lbBuildMat.Items.Clear();
+            lbHarvEquip.Items.Clear();
+            lbHarvObj.Items.Clear();
+            lbCraftObj.Items.Clear();
+            lbPlantedSeed.Items.Clear();
+            lbHunted.Items.Clear();
+            lbHuntedPlayers.Items.Clear();
+            lbConsumCat.Items.Clear();
+            lbConsumObj.Items.Clear();
         }
 
         private void analyzeData()
@@ -104,7 +128,20 @@ namespace DataAnalysis_Tool
             //call functions based on file header
             if (header[0] == "session") { sessionParser(header, dataEntries); };
 
-            ImportMessage.Text = "Import successful. There were " + counter + " events.";
+            outputMessageToUser("Import successful. There were " + counter + " events.");
+        }
+
+        private void outputSessionToTextFile()
+        {
+            string sessionInfo = tbSessionID.Text + "," + tbPlayerName.Text + "," + tbSessionLenght.Text + "," + tbTotalEvents.Text + "," +
+                                 tbUniqueBiomes.Text + "," + tbTraveledDist.Text + "," + tbTotalMinedMat.Text + "," + tbTotalBuildMat.Text + "," +
+                                 tbTotalHavEquip.Text + "," + tbTotalCrafted.Text + "," + tbTotalPlanted.Text + "," + tbExploringTotal.Text + "," 
+                                 + totalDeaths + "," + tbTotalHunted.Text + "," + tbTotalHuntedPlayers.Text + "," + tbTotalConObj.Text;
+            File.AppendAllText(fileOutputPath.Text, sessionInfo + Environment.NewLine);
+
+            var count = File.ReadLines(fileOutputPath.Text).Count();
+
+            outputMessageToUser("Outputed successfully. That was the file " + count + " entry.");
         }
 
         private void sessionParser(string[] header, string[] dataEntries)
@@ -121,11 +158,13 @@ namespace DataAnalysis_Tool
             double  distance        = 0;       
             float   sessionLenght   = 0;
             bool    firstEntry      = true;
-            double[] oldPosition = new double[3];
+            double[] oldPosition    = new double[3];
+            int     deathsByStarve  = 0;
+            int     deathsByHealth  = 0;
+            int     exploringEvents = 0;
 
             List<int> uniqueBiomeValues         = new List<int>();
-            List<double[]> eventsPositions      = new List<double[]>();
-            List<float>  eventsTimes            = new List<float>();
+
             List<string> minedMaterials         = new List<string>();
             List<string> miningEquipment        = new List<string>();
             List<string> harvestingEquipment    = new List<string>();
@@ -166,6 +205,10 @@ namespace DataAnalysis_Tool
                     oldPosition[1] = position[1];
                     oldPosition[2] = position[2];
 
+                    allTraveledBiomes.Add(System.Convert.ToInt32(dataPoint[4]));
+                    eventsActionsID.Add(System.Convert.ToInt32(dataPoint[0]));
+                    eventsTimes.Add(System.Convert.ToSingle(dataPoint[1]));
+
                     //Populate all the lists according to actions ID
                     //0 Action ID, 1 Date, 2 Sub Action, 3 Unique Value, 4 Biome, 5 X, 6 Y, 7 Z
                     if (System.Convert.ToInt16(dataPoint[0]) == 1)
@@ -190,9 +233,15 @@ namespace DataAnalysis_Tool
                     {
                         plantedSeeds.Add(dataPoint[3]);
                     }
+                    if (System.Convert.ToInt16(dataPoint[0]) == 6)
+                    {
+                        exploringEvents++;
+                    }
                     if (System.Convert.ToInt16(dataPoint[0]) == 7)
                     {
                         deathEvents.Add(dataPoint[2]);
+                        if (dataPoint[2] == "Starved") deathsByStarve++;
+                        else deathsByHealth++;
                     }
                     if (System.Convert.ToInt16(dataPoint[0]) == 8)
                     {
@@ -207,6 +256,8 @@ namespace DataAnalysis_Tool
                 }
             }
 
+            totalDeaths = deathsByHealth + deathsByStarve;
+
             //call function to order and print lists
             printListsScreen(minedMaterials, lbMinMat, tbTotalMinedMat);
             printListsScreen(miningEquipment, lbMinEquip, tbTotalMinEquip);
@@ -218,6 +269,7 @@ namespace DataAnalysis_Tool
             printListsScreen(plantedSeeds, lbPlantedSeed, tbTotalPlanted);
             printListsScreen(consumedCateg, lbConsumCat, tbTotalConCat);
             printListsScreen(consumedObj, lbConsumObj, tbTotalConObj);
+            printListsScreen(huntedPlayers, lbHuntedPlayers, tbTotalHuntedPlayers);
 
             //fill status values
             int uniqueBiomes = uniqueBiomeValues.Count;
@@ -227,7 +279,15 @@ namespace DataAnalysis_Tool
             tbTraveledDist.Text = distance.ToString();
             tbAvgWalkSpeed.Text = (distance/sessionLenght).ToString();
 
-            tbDeathsNumber.Text = deathEvents.Count().ToString();
+            tbExploringTotal.Text = exploringEvents.ToString();
+            tbDeathHealth.Text = deathsByHealth.ToString();
+            tbDeathStarved.Text = deathsByStarve.ToString();
+
+            //activate other buttons
+            AddToOutputButton.IsEnabled = true;
+            ActionsPieChartButton.IsEnabled = true;
+            ActionsTimeGraphButton.IsEnabled = true;
+            PDFReportButton.IsEnabled = true;
 
         }
 
@@ -242,9 +302,34 @@ namespace DataAnalysis_Tool
             listTotal.Text = list.Count().ToString();
         }
 
-
-
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
+
+        private void ClickAddFile(object sender, RoutedEventArgs e)
+        {
+            outputSessionToTextFile();
+        }
+
+        private void ClickCreateReport(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void ClickActionsOverTime(object sender, RoutedEventArgs e)
+        {
+            Type t = typeof(ActionsPieChart.ActionsPieChartWindow);
+            GraphsOpener graph = new GraphsOpener(t);
+
+            if (graph != null)
+            {
+                var window = graph.Create();
+                window.Show();
+            }
+        }
+
+        private void ClickActionsDistribution(object sender, RoutedEventArgs e)
         {
 
         }
