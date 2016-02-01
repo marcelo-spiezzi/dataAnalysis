@@ -314,14 +314,8 @@ namespace DataAnalysis_Tool
 
         private void ClickActionsOverTime(object sender, RoutedEventArgs e)
         {
-            Type t = typeof(ActionsPieChart.ActionsPieChartWindow);
-            GraphsOpener graph = new GraphsOpener(t);
-
-            if (graph != null)
-            {
-                var window = graph.Create();
-                window.Show();
-            }
+            GraphWindow win = new GraphWindow();
+            win.Show();
         }
 
         private void ClickActionsDistribution(object sender, RoutedEventArgs e)
