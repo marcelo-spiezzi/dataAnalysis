@@ -32,6 +32,7 @@ namespace DataAnalysis_Tool
             loadDataFile();
         }
 
+        //load input file and create an array dataEntries to call parseDataFile()
         private void loadDataFile()
         {
             int counter = 0;
@@ -51,6 +52,8 @@ namespace DataAnalysis_Tool
             parseDataFile(dataEntries);
         }
 
+        //parse each entry by the 14 different values and populate the list<double>[] values
+        //call the functions calculate mean, median and standard deviation
         private void parseDataFile(string[] dataEntries)
         {
             int size = dataEntries.Length;
@@ -169,6 +172,24 @@ namespace DataAnalysis_Tool
             ModeSelectWindow win = new ModeSelectWindow();
             win.Show();
             this.Close();
+        }
+
+        //Generic button click function to display graphs based on button ID
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            string[] button = (sender as Button).Name.Split('_');
+            int index = System.Convert.ToInt16(button[1]);
+
+            List<KeyValuePair<string, int>> valueList = new List<KeyValuePair<string, int>>();
+
+            var q1 = values[index].GroupBy(x => x)
+                    .Select(g => new { Value = g.Key, Count = g.Count() });
+
+            foreach (var x in q1) { valueList.Add(new KeyValuePair<string, int>(x.Value.ToString(), x.Count)); }
+
+            GraphTest win = new GraphTest();          
+            win.Show();
+            win.showChart(valueList);
         }
     }
 }

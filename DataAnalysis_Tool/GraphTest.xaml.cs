@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Collections.ObjectModel;
 
 namespace DataAnalysis_Tool
 {
@@ -21,7 +22,22 @@ namespace DataAnalysis_Tool
     {
         public GraphTest()
         {
-            InitializeComponent();
+            InitializeComponent();      
+        }
+
+        public void showChart(List<KeyValuePair<string, int>> list)
+        {
+            List<KeyValuePair<string, int>> MyValue = new List<KeyValuePair<string, int>>();
+            foreach (var a in list)
+            {
+                MyValue.Add(new KeyValuePair<string, int>(a.Key, a.Value));
+            }
+
+            foreach (var b in MyValue)
+            {
+                lbItems.Items.Add(b.Key + " , " + b.Value);
+            }
+            BarGraph.DataContext = MyValue;  
         }
     }
 }
