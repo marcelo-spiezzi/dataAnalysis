@@ -127,8 +127,6 @@ namespace DataAnalysis_Tool
             return median;
         }
 
-
-
         private double calculateStandardDeviation(List<double> list)
         {
             double M = 0.0;
