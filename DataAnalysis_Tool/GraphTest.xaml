@@ -3,14 +3,13 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:Custom="http://schemas.microsoft.com/wpf/2008/toolkit" 
         xmlns:chartingToolkit="clr-namespace:System.Windows.Controls.DataVisualization.Charting;assembly=System.Windows.Controls.DataVisualization.Toolkit" x:Class="DataAnalysis_Tool.GraphTest"
-        Title="GraphTest" Height="433.59" Width="801.867">
+        Title="GraphTest" Height="511.99" Width="801.867">
     <Grid>
         <Grid.Background>
             <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlLightColorKey}}"/>
         </Grid.Background>
-        <ListBox x:Name="lbItems" HorizontalAlignment="Left" Height="301" Margin="584,60,0,0" VerticalAlignment="Top" Width="184"/>
-        <chartingToolkit:Chart x:Name="BarGraph" HorizontalAlignment="Left" Margin="10,28,0,0" Title="Chart Title" VerticalAlignment="Top" Height="360" Width="569">
-            <chartingToolkit:BarSeries DependentValuePath="Key" IndependentValuePath="Value" IsSelectionEnabled="True" ItemsSource="{Binding}"/>
+        <chartingToolkit:Chart x:Name="GraphObj" Title="Chart Title">
+            <chartingToolkit:ColumnSeries DependentValuePath="Value" IndependentValuePath="Key" IsSelectionEnabled="True" ItemsSource="{Binding}"/>
         </chartingToolkit:Chart>
     </Grid>
 </Window>

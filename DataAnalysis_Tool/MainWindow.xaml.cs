@@ -21,7 +21,7 @@ namespace DataAnalysis_Tool
     /// </summary>
     public partial class MainWindow : Window
     {
-        List<List<string>> allEventsBySession = new List<List<string>>();
+        List<List<uniqueEventValues>> allEventsBySessions = new List<List<uniqueEventValues>>();
 
         char[] delimiterChars = { ',', ';' };
 
@@ -47,7 +47,22 @@ namespace DataAnalysis_Tool
             public int huntEvents;
             public int fightEvents;
             public int consumableEvents;
-        } 
+        }
+
+        public struct uniqueEventValues
+        {
+            public int sessionID;
+            public string name;
+            public int type;
+            public string date;
+            public double deltaTime;
+            public string subAction;
+            public string uniqueValue;
+            public int biome;
+            public double x;
+            public double y;
+            public double z;
+        }
 
         public MainWindow()
         {
@@ -80,6 +95,8 @@ namespace DataAnalysis_Tool
 
         private void ButtonAnalyze(object sender, RoutedEventArgs e)
         {
+            allEventsBySessions.Clear();
+
             if (firstEntry)
             {
                 parseInputBySession();
@@ -90,6 +107,8 @@ namespace DataAnalysis_Tool
                 emptyData();
                 parseInputBySession();
             }
+
+            displayAllSessionsOnViewer(-1);
 
             //activate other buttons
             AddToOutputButton.IsEnabled = true;
@@ -115,7 +134,7 @@ namespace DataAnalysis_Tool
 
         private void ClickActionsDistribution(object sender, RoutedEventArgs e)
         {
-
+            
         }
 
         private void ReturnToMainButton(object sender, RoutedEventArgs e)
@@ -126,6 +145,48 @@ namespace DataAnalysis_Tool
         }
 
         // ----------------- OTHER FUNCTIONS ------------------ //
+
+        private void emptyData()
+        {         
+            lbMinEquip.Items.Clear();
+            lbMinMat.Items.Clear();
+            lbBuildMat.Items.Clear();
+            lbHarvEquip.Items.Clear();
+            lbHarvObj.Items.Clear();
+            lbCraftObj.Items.Clear();
+            lbPlantedSeed.Items.Clear();
+            lbHunted.Items.Clear();
+            lbHuntedPlayers.Items.Clear();
+            lbConsumCat.Items.Clear();
+            lbConsumObj.Items.Clear();
+        }
+
+        //analyze file and returns an array with all lines
+        private string[] analyzeFile()
+        {
+            int counter = 0;
+            string line;
+
+            System.IO.StreamReader file = new System.IO.StreamReader(filePath.Text);
+            var count = File.ReadLines(filePath.Text).Count();
+
+            string[] dataEntries = new string[count];
+
+            file.DiscardBufferedData();
+            file.BaseStream.Seek(0, System.IO.SeekOrigin.Begin);
+            file.BaseStream.Position = 0;
+
+            //save all data entries to the array dataEntires
+            while ((line = file.ReadLine()) != null)
+            {
+                dataEntries[counter] = line;
+                counter++;
+            }
+
+            file.Close();
+
+            return dataEntries;
+        }
 
         //analyze all events in a file loaded at analyzeFile() and add them to lists based on their unique IDs
         private void parseInputBySession()
@@ -147,81 +208,51 @@ namespace DataAnalysis_Tool
                 }
             }
 
-            //populate a list of lists with the the data points according to the session ID
-            //parent list = sessions ; child list = session events
             for (int y = 0; y <= numberOfSessions - 1; y++)
             {
-                List<string> thisSessionEvents = new List<string>();
+                List<uniqueEventValues> thisSessionEvents = new List<uniqueEventValues>();
 
-                for(int z = 0; z < dataEntries.Length ; z++)
-                {                   
+                for (int z = 0; z < dataEntries.Length; z++)
+                {
                     string[] dataPoint = dataEntries[z].Split(delimiterChars);
-                    if (System.Convert.ToInt16(dataPoint[0]) == y)
+
+                    uniqueEventValues a = new uniqueEventValues();
+                    a.sessionID = System.Convert.ToInt16(dataPoint[0]);
+                    a.name = dataPoint[1];
+                    a.type = System.Convert.ToInt16(dataPoint[2]);
+                    a.date = dataPoint[3];
+                    a.deltaTime = System.Convert.ToDouble(dataPoint[4]);
+                    a.subAction = dataPoint[5];
+                    a.uniqueValue = dataPoint[6];
+                    a.biome = System.Convert.ToInt16(dataPoint[7]);
+                    a.x = System.Convert.ToDouble(dataPoint[8]);
+                    a.y = System.Convert.ToDouble(dataPoint[9]);
+                    a.z = System.Convert.ToDouble(dataPoint[10]);
+
+                    if (a.sessionID == y)
                     {
-                        thisSessionEvents.Add(dataEntries[z]);
-                    }              
+                        thisSessionEvents.Add(a);
+                    }
                 }
-                allEventsBySession.Add(thisSessionEvents);
-            }          
+                allEventsBySessions.Add(thisSessionEvents);
+            }
+
+            outputMessageToUser("Import successful. There were " + dataEntries.Length + " events in " + numberOfSessions + " unique sessions");
         }
 
         private void outputMessageToUser(string msg)
         {
             ImportMessage.Text = msg;
-        }
-
-        private void emptyData()
-        {
-            lbMinEquip.Items.Clear();
-            lbMinMat.Items.Clear();
-            lbBuildMat.Items.Clear();
-            lbHarvEquip.Items.Clear();
-            lbHarvObj.Items.Clear();
-            lbCraftObj.Items.Clear();
-            lbPlantedSeed.Items.Clear();
-            lbHunted.Items.Clear();
-            lbHuntedPlayers.Items.Clear();
-            lbConsumCat.Items.Clear();
-            lbConsumObj.Items.Clear();
-        }
-
-        //analyze file and returns an array with all lines
-        private string[] analyzeFile()
-        {
-            int counter = 0;
-            string line;
-        
-            System.IO.StreamReader file = new System.IO.StreamReader(filePath.Text);
-            var count = File.ReadLines(filePath.Text).Count();
-
-            string[] dataEntries = new string[count];
-
-            file.DiscardBufferedData();
-            file.BaseStream.Seek(0, System.IO.SeekOrigin.Begin);
-            file.BaseStream.Position = 0;
-
-            //save all data entries to the array dataEntires
-            while ((line = file.ReadLine()) != null)
-            {
-                dataEntries[counter] = line;
-                counter++;
-            }
-
-            file.Close();
-
-            outputMessageToUser("Import successful. There were " + counter + " events.");
-
-            return dataEntries;
-        }
+        }       
 
         //export all sessions statistcs to output file. Session analyzes is made by function sessionParser()
         private void outputSessionToTextFile()
         {
             //time to analyze all sessions and do the calculations for all of them 
-            foreach (var subList in allEventsBySession)
+            foreach (var subList in allEventsBySessions)
             {
                 eventOverallValues sessionValues = new eventOverallValues();
-                sessionValues = sessionsParser(subList);
+                sessionValues = sessionSummary(subList);
 
                 string sessionInfo = sessionValues.sessionID + "," + sessionValues.playerName + "," + sessionValues.sessionLenght + "," + sessionValues.numberEvents + "," +
                      sessionValues.uniqueBiomes + "," + sessionValues.traveledDistance + "," + sessionValues.miningEvents + "," + sessionValues.buildingEvents + "," +
@@ -231,10 +262,10 @@ namespace DataAnalysis_Tool
             }
 
             var count = File.ReadLines(fileOutputPath.Text).Count();
-            outputMessageToUser("Outputed successfully. Added" + allEventsBySession.Count() + " events. File has now " + count + " events.");
+            outputMessageToUser("Outputed successfully. Added " + allEventsBySessions.Count() + " sessions. File has now " + count + " sessions.");
         }
 
-        private eventOverallValues sessionsParser(List<string> sessionList)
+        private eventOverallValues sessionSummary(List<uniqueEventValues> sessionList)
         {
             eventOverallValues sessionValues = new eventOverallValues();
 
@@ -247,21 +278,22 @@ namespace DataAnalysis_Tool
             //parse data for each entry
             foreach (var value in sessionList)
             {
-                string[] dataPoint = value.Split(delimiterChars);
+                uniqueEventValues dataPoint = new uniqueEventValues();
+                dataPoint = value;
 
                 sessionValues.numberEvents++;
 
                 //generate list of unique biomes
-                if (!uniqueBiomeValues.Contains(System.Convert.ToInt32(dataPoint[7])))
-                    uniqueBiomeValues.Add(System.Convert.ToInt32(dataPoint[7]));
+                if (!uniqueBiomeValues.Contains(dataPoint.biome))
+                    uniqueBiomeValues.Add(dataPoint.biome);
 
                 //info to calculate total time
-                if (counter == 0) sessionValues.sessionLenght = System.Convert.ToInt32(dataPoint[4]);
-                if (counter == sessionList.Count() - 1) sessionValues.sessionLenght = System.Convert.ToInt32(dataPoint[4]) - sessionValues.sessionLenght;
+                if (counter == 0) sessionValues.sessionLenght = dataPoint.deltaTime;
+                if (counter == sessionList.Count() - 1) sessionValues.sessionLenght += dataPoint.deltaTime;
                 counter++;
 
                 //events position
-                double[] position = new double[3] { System.Convert.ToDouble(dataPoint[8]), System.Convert.ToDouble(dataPoint[9]), System.Convert.ToDouble(dataPoint[10])};
+                double[] position = new double[3] { dataPoint.x, dataPoint.y, dataPoint.z };
 
                 //calculate distance between positions
                 if (!firstEntry) 
@@ -272,8 +304,8 @@ namespace DataAnalysis_Tool
                 }
                 else 
                 {
-                    sessionValues.playerName = dataPoint[1];
-                    sessionValues.sessionID = System.Convert.ToInt16(dataPoint[0]);
+                    sessionValues.playerName = dataPoint.name;
+                    sessionValues.sessionID = dataPoint.sessionID;
                     firstEntry = false; 
                 }
 
@@ -283,82 +315,112 @@ namespace DataAnalysis_Tool
 
                 //Populate all the lists according to actions ID
                 //0 session id, 1 player name, 2 action ID, 3 date, 4 deltaTime, 5 sub action, 6 unique value, 7 biome, 8 x, 9 y, 10 z
-                if (System.Convert.ToInt16(dataPoint[2]) == 1) { sessionValues.miningEvents++; }
-                if (System.Convert.ToInt16(dataPoint[2]) == 2) { sessionValues.buildingEvents++; }
-                if (System.Convert.ToInt16(dataPoint[2]) == 3) { sessionValues.harvestingEvents++; }
-                if (System.Convert.ToInt16(dataPoint[2]) == 4) { sessionValues.craftingEvents++; }
-                if (System.Convert.ToInt16(dataPoint[2]) == 5) { sessionValues.farmingEvents++; }
-                if (System.Convert.ToInt16(dataPoint[2]) == 6) { sessionValues.exploringEvents++; }
-                if (System.Convert.ToInt16(dataPoint[2]) == 7) { sessionValues.deathsEvents++; }
-                if (System.Convert.ToInt16(dataPoint[2]) == 8)
+                if (dataPoint.type == 1) { sessionValues.miningEvents++; }
+                if (dataPoint.type == 2) { sessionValues.buildingEvents++; }
+                if (dataPoint.type == 3) { sessionValues.harvestingEvents++; }
+                if (dataPoint.type == 4) { sessionValues.craftingEvents++; }
+                if (dataPoint.type == 5) { sessionValues.farmingEvents++; }
+                if (dataPoint.type == 6) { sessionValues.exploringEvents++; }
+                if (dataPoint.type == 7) { sessionValues.deathsEvents++; }
+                if (dataPoint.type == 8)
                 {
-                    if(dataPoint[2] == "Fight") { sessionValues.fightEvents++; }
+                    if(dataPoint.subAction == "Fight") { sessionValues.fightEvents++; }
                     else { sessionValues.huntEvents++; }
                 }
-                if (System.Convert.ToInt16(dataPoint[2]) == 9) { sessionValues.consumableEvents++; }
+                if (dataPoint.type == 9) { sessionValues.consumableEvents++; }
             }
 
             sessionValues.uniqueBiomes = uniqueBiomeValues.Count();
 
             return sessionValues;
         }
-
-        //not in use now, will be used to display a specific session in the viewer
-        private void displaySessionOnViewer()
+       
+        //Display session(s) statistcs on viewer according to session ID. -1 all sessions.
+        private void displayAllSessionsOnViewer(int sessionID)
         {
-            /*
-            allTraveledBiomes.Add(System.Convert.ToInt32(dataPoint[7]));
-            eventsActionsID.Add(System.Convert.ToInt32(dataPoint[2]));
-            eventsTimes.Add(System.Convert.ToSingle(dataPoint[3]));
+            List<string> miningEquipment = new List<string>();
+            List<string> minedMaterials = new List<string>();
+            List<string> buildingMaterials = new List<string>();
+            List<string> harvestingEquipment = new List<string>();
+            List<string> harvestedObj = new List<string>();
+            List<string> craftedObjects = new List<string>();
+            List<string> plantedSeeds = new List<string>();
+            List<string> deathEvents = new List<string>();
+            List<string> huntedPlayers = new List<string>();
+            List<string> huntedCreatures = new List<string>();
+            List<string> consumedCateg = new List<string>();
+            List<string> consumedObj = new List<string>();
 
+            int exploringEvents = 0;
+            int deathsByStarve = 0;
+            int deathsByHealth = 0;
+            string playerName = "";
+            int sID = 0;
 
-            //Populate all the lists according to actions ID
-            //0 session id, 1 player name, 2 action ID, 3 date, 4 deltaTime, 5 sub action, 6 unique value, 7 biome, 8 x, 9 y, 10 z
-            if (System.Convert.ToInt16(dataPoint[2]) == 1)
+            emptyData();
+
+            foreach (var subList in allEventsBySessions)
             {
-                miningEquipment.Add(dataPoint[5]);
-                minedMaterials.Add(dataPoint[6]);
-            }
-            if (System.Convert.ToInt16(dataPoint[2]) == 2)
-            {
-                buildingMaterials.Add(dataPoint[6]);
-            }
-            if (System.Convert.ToInt16(dataPoint[2]) == 3)
-            {
-                harvestingEquipment.Add(dataPoint[5]);
-                harvestedObj.Add(dataPoint[6]);
-            }
-            if (System.Convert.ToInt16(dataPoint[2]) == 4)
-            {
-                craftedObjects.Add(dataPoint[6]);
-            }
-            if (System.Convert.ToInt16(dataPoint[2]) == 5)
-            {
-                plantedSeeds.Add(dataPoint[6]);
-            }
-            if (System.Convert.ToInt16(dataPoint[2]) == 6)
-            {
-                exploringEvents++;
-            }
-            if (System.Convert.ToInt16(dataPoint[2]) == 7)
-            {
-                deathEvents.Add(dataPoint[6]);
-                if (dataPoint[5] == "Starved") deathsByStarve++;
-                else deathsByHealth++;
-            }
-            if (System.Convert.ToInt16(dataPoint[2]) == 8)
-            {
-                if (dataPoint[2] == "Fight") { huntedPlayers.Add(dataPoint[3]); }
-                else { huntedCreatures.Add(dataPoint[6]); }
-            }
-            if (System.Convert.ToInt16(dataPoint[2]) == 9)
-            {
-                consumedCateg.Add(dataPoint[5]);
-                consumedObj.Add(dataPoint[6]);
+                foreach(var a in subList)
+                {
+                    uniqueEventValues dataPoint = new uniqueEventValues();
+                    dataPoint = a;
+
+                    //add to list only the selected sessionID or all if session ID == -1
+                    if (dataPoint.sessionID == sessionID || sessionID == -1)
+                    {
+                        playerName = dataPoint.name;
+                        sID = dataPoint.sessionID;
+
+                        //Populate all the lists according to actions ID
+                        if (dataPoint.type == 1)
+                        {
+                            miningEquipment.Add(dataPoint.subAction);
+                            minedMaterials.Add(dataPoint.uniqueValue);
+                        }
+                        if (dataPoint.type == 2)
+                        {
+                            buildingMaterials.Add(dataPoint.uniqueValue);
+                        }
+                        if (dataPoint.type == 3)
+                        {
+                            harvestingEquipment.Add(dataPoint.subAction);
+                            harvestedObj.Add(dataPoint.uniqueValue);
+                        }
+                        if (dataPoint.type == 4)
+                        {
+                            craftedObjects.Add(dataPoint.subAction);
+                        }
+                        if (dataPoint.type == 5)
+                        {
+                            plantedSeeds.Add(dataPoint.uniqueValue);
+                        }
+                        if (dataPoint.type == 6)
+                        {
+                            exploringEvents++;
+                        }
+                        if (dataPoint.type == 7)
+                        {
+                            deathEvents.Add(dataPoint.uniqueValue);
+                            if (dataPoint.subAction == "Starved") deathsByStarve++;
+                            else deathsByHealth++;
+                        }
+                        if (dataPoint.type == 8)
+                        {
+                            if (dataPoint.subAction == "Fight") { huntedPlayers.Add(dataPoint.uniqueValue); }
+                            else { huntedCreatures.Add(dataPoint.uniqueValue); }
+                        }
+                        if (dataPoint.type == 9)
+                        {
+                            consumedCateg.Add(dataPoint.subAction);
+                            consumedObj.Add(dataPoint.uniqueValue);
+                        }
+                    }
+                }
             }
 
             //call function to order and print lists
-            /*printListsScreen(minedMaterials, lbMinMat, tbTotalMinedMat);
+            printListsScreen(minedMaterials, lbMinMat, tbTotalMinedMat);
             printListsScreen(miningEquipment, lbMinEquip, tbTotalMinEquip);
             printListsScreen(harvestedObj, lbHarvObj, tbTotalHavObj);
             printListsScreen(harvestingEquipment, lbHarvEquip, tbTotalHavEquip);
@@ -371,20 +433,31 @@ namespace DataAnalysis_Tool
             printListsScreen(huntedPlayers, lbHuntedPlayers, tbTotalHuntedPlayers);
 
             //fill status values
-            int uniqueBiomes = uniqueBiomeValues.Count;
-            tbUniqueBiomes.Text = uniqueBiomes.ToString();
+            //int uniqueBiomes = uniqueBiomeValues.Count;
+            //tbUniqueBiomes.Text = uniqueBiomes.ToString();
 
-            tbSessionLenght.Text = sessionLenght.ToString();
-            tbTraveledDist.Text = distance.ToString();
-            tbAvgWalkSpeed.Text = (distance / sessionLenght).ToString();
+            //tbSessionLenght.Text = sessionLenght.ToString();
+            //tbTraveledDist.Text = distance.ToString();
+            //tbAvgWalkSpeed.Text = (distance / sessionLenght).ToString();
+
+            if (sessionID == -1)
+            {
+                tbPlayerName.Text = "all";
+                tbSessionID.Text = "all";
+            }
+            else
+            {
+                tbPlayerName.Text = playerName;
+                tbSessionID.Text = sID.ToString();
+            }
 
             tbExploringTotal.Text = exploringEvents.ToString();
             tbDeathHealth.Text = deathsByHealth.ToString();
-            tbDeathStarved.Text = deathsByStarve.ToString();*/
+            tbDeathStarved.Text = deathsByStarve.ToString();
         }
 
-        //not in use now, should be used with displaySessionOnViewer()
-        private void printListsScreen(List<string> list, ListBox listToPrint, TextBlock listTotal)
+        //not in use now, should be used with displayAllSessionsOnViewer()
+        private void printListsScreen(List<string> list, ListBox listToPrint, TextBox listTotal)
         {
             var q1 = list.GroupBy(x => x)
                     .Select(g => new { Value = g.Key, Count = g.Count() })
@@ -394,6 +467,31 @@ namespace DataAnalysis_Tool
 
             listTotal.Text = list.Count().ToString();
         }
+
+
+        // -------- ENABLE AND DISABLE ALL FILTERS ----------- //
+
+        bool IsAllDigits(string s)
+        {
+            if (s == "") return false;
+            foreach (char c in s)
+            {
+                if (!Char.IsDigit(c))
+                    return false;
+            }
+            return true;
+        }
+
+        private void tbSessionID_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if ((sender as TextBox).Text == "all")
+            {
+                displayAllSessionsOnViewer(-1);
+                return;
+            }
+            if (IsAllDigits((sender as TextBox).Text) && tbSessionID.IsEnabled) { displayAllSessionsOnViewer(System.Convert.ToInt16((sender as TextBox).Text)); }
+        }
+
 
     }
 }

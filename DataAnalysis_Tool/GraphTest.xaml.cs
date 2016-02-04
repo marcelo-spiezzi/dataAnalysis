@@ -25,19 +25,11 @@ namespace DataAnalysis_Tool
             InitializeComponent();      
         }
 
-        public void showChart(List<KeyValuePair<string, int>> list)
+        public void showChart(List<KeyValuePair<double, int>> list, string title)
         {
-            List<KeyValuePair<string, int>> MyValue = new List<KeyValuePair<string, int>>();
-            foreach (var a in list)
-            {
-                MyValue.Add(new KeyValuePair<string, int>(a.Key, a.Value));
-            }
-
-            foreach (var b in MyValue)
-            {
-                lbItems.Items.Add(b.Key + " , " + b.Value);
-            }
-            BarGraph.DataContext = MyValue;  
+            GraphObj.Title = title;
+            GraphObj.DataContext = list;
         }
+
     }
 }

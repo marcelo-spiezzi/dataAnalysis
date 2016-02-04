@@ -103,6 +103,11 @@ namespace DataAnalysis_Tool
                 string s = "tbDeviation_" + a;
                 TextBlock tb4 = FindName(s) as TextBlock;
                 tb4.Text = calculateStandardDeviation(values[a]).ToString();
+
+                //enable graphs buttons
+                string b = "Button_" + a;
+                Button bt = FindName(b) as Button;
+                bt.IsEnabled = true;
             }
 
         }
@@ -180,16 +185,16 @@ namespace DataAnalysis_Tool
             string[] button = (sender as Button).Name.Split('_');
             int index = System.Convert.ToInt16(button[1]);
 
-            List<KeyValuePair<string, int>> valueList = new List<KeyValuePair<string, int>>();
+            List<KeyValuePair<double, int>> valueList = new List<KeyValuePair<double, int>>();
 
             var q1 = values[index].GroupBy(x => x)
                     .Select(g => new { Value = g.Key, Count = g.Count() });
 
-            foreach (var x in q1) { valueList.Add(new KeyValuePair<string, int>(x.Value.ToString(), x.Count)); }
+            foreach (var x in q1) { valueList.Add(new KeyValuePair<double, int>(x.Value, x.Count)); }
 
             GraphTest win = new GraphTest();          
             win.Show();
-            win.showChart(valueList);
+            win.showChart(valueList, (sender as Button).Content.ToString());
         }
     }
 }
