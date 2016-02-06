@@ -10,11 +10,11 @@ none
 false
 DEBUG;TRACE
 D:\Classes Assignemtns\Thesis\DataAnalysis_Project\Thesis_Raimbault\DataAnalysis_Tool\DataAnalysis_Tool\App.xaml
-41817130374
+6-461429344
 1808981925
-12-1121271017
+14-930644128
 23-542211271
-GraphTest.xaml;MainWindow.xaml;ModeSelectWindow.xaml;OverallSessionsWindow.xaml;
+GraphTest.xaml;KmeansWindow.xaml;MainWindow.xaml;ModeSelectWindow.xaml;OverallSessionsWindow.xaml;ScatterSeriesWindow.xaml;
 
 False
 

@@ -40,7 +40,9 @@ namespace DataAnalysis_Tool
 
         private void Button_Click_2(object sender, RoutedEventArgs e)
         {
-
+            KmeansWindow win = new KmeansWindow();
+            win.Show();
+            this.Close();
         }
 
         private void Button_Click_3(object sender, RoutedEventArgs e)
