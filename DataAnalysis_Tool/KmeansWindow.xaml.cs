@@ -21,6 +21,11 @@ namespace DataAnalysis_Tool
     public partial class KmeansWindow : Window
     {
         double[][] importedValues;
+        double[] avgDistances;
+        double[][] finalMeans;
+        int usedRandom;
+        int usedK;
+        bool usedNormalized;
 
         int[] clusteredData;
         int numberOfClusters = 0;
@@ -209,8 +214,9 @@ namespace DataAnalysis_Tool
             }
         }
 
-        private void printClustersToFile(int[] clusteredData)
+        private void printClustersToFile()
         {
+            File.AppendAllText(OutputFilePath.Text, "K= " + usedK + ", Random Seed= " + usedRandom + ", Normalized Data= " + usedNormalized + Environment.NewLine + Environment.NewLine);
             for (int k = 0; k < numberOfClusters; k++)
             {
                 File.AppendAllText(OutputFilePath.Text, "== Cluster " + k + " ==" + Environment.NewLine);
@@ -221,11 +227,32 @@ namespace DataAnalysis_Tool
                     string item = "";
                     for (int j = 0; j < importedValues[i].Length; j++)
                     {
-                        if (j == 0) item = importedValues[i][j].ToString();
-                        else item = item + " | " + importedValues[i][j].ToString();
+                        if (j == 0) item = importedValues[i][j].ToString("F4");
+                        else item = item + " | " + importedValues[i][j].ToString("F4");
                     }
                     File.AppendAllText(OutputFilePath.Text, item + Environment.NewLine);
                 }
+            }
+            File.AppendAllText(OutputFilePath.Text, Environment.NewLine +  "============ Centroids ============" + Environment.NewLine);
+            for (int k = 0; k < numberOfClusters; k++)
+            {
+                for (int i = 0; i < finalMeans.Length; i++)
+                {
+                    int clusterID = clusteredData[i];
+                    if (clusterID != k) continue;
+                    string item = "";
+                    for (int j = 0; j < finalMeans[i].Length; j++)
+                    {
+                        if (j == 0) item = finalMeans[i][j].ToString("F4");
+                        else item = item + " | " + finalMeans[i][j].ToString("F4");
+                    }
+                    File.AppendAllText(OutputFilePath.Text, "Cluster " + k + ": " + item + Environment.NewLine);
+                }
+            }
+            File.AppendAllText(OutputFilePath.Text, Environment.NewLine + "== Tulps avg distance to centroids ==" + Environment.NewLine);
+            for (int i = 0; i < avgDistances.Length; i++)
+            {            
+                File.AppendAllText(OutputFilePath.Text, "Cluster " + i + ": " + avgDistances[i].ToString("F4") + Environment.NewLine);
             }
         }
 
@@ -269,15 +296,18 @@ namespace DataAnalysis_Tool
             // such as the average distance between cluster means, or the average distance between tuples in 
             // a cluster, or a weighted combination of both3
 
-            
-            means = CalculateMeans(rawData, clustering, means);
-            printClustersToList(clustering, means, data);            
-            AverageDistance(clustering, rawData, means);
+            usedK = numClusters;
+            usedRandom = randomSeed;
+            usedNormalized = NormalizeData;
+
+            finalMeans = CalculateMeans(rawData, clustering, means);
+            printClustersToList(clustering, finalMeans, data);
+            avgDistances = CalcAvgDistancesTulpsInCluster(clustering, rawData, finalMeans);
 
             return clustering;
         }
 
-        private double[] AverageDistance(int[] clusteredData, double[][] data, double[][] means)
+        private double[] CalcAvgDistancesTulpsInCluster(int[] clusteredData, double[][] data, double[][] means)
         {
             double[] avgs = new double[numberOfClusters];
 
@@ -544,10 +574,11 @@ namespace DataAnalysis_Tool
 
         private void SaveOutputButton_Click(object sender, RoutedEventArgs e)
         {
-            printClustersToFile(clusteredData);
+            printClustersToFile();
             messageToUser("File saved!");
         }
 
+        //Binding was not working properly =/
         private void CheckBox_Checked(object sender, RoutedEventArgs e)
         {
             NormalizeData = true;
