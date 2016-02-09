@@ -47,7 +47,9 @@ namespace DataAnalysis_Tool
 
         private void Button_Click_3(object sender, RoutedEventArgs e)
         {
-
+            SIVMWindow win = new SIVMWindow();
+            win.Show();
+            this.Close();
         }
     }
 }

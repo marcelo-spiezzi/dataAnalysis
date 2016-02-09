@@ -588,6 +588,13 @@ namespace DataAnalysis_Tool
             NormalizeData = false;
         }
 
+        private void Button_Click_2(object sender, RoutedEventArgs e)
+        {
+            ModeSelectWindow win = new ModeSelectWindow();
+            win.Show();
+            this.Close();
+        }
+
 
     }
 }

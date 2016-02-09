@@ -44,3 +44,5 @@ D:\Classes Assignemtns\Thesis\DataAnalysis_Project\Thesis_Raimbault\DataAnalysis
 D:\Classes Assignemtns\Thesis\DataAnalysis_Project\Thesis_Raimbault\DataAnalysis_Tool\DataAnalysis_Tool\obj\Debug\KmeansWindow.g.cs
 D:\Classes Assignemtns\Thesis\DataAnalysis_Project\Thesis_Raimbault\DataAnalysis_Tool\DataAnalysis_Tool\obj\Debug\ScatterSeriesWindow.baml
 D:\Classes Assignemtns\Thesis\DataAnalysis_Project\Thesis_Raimbault\DataAnalysis_Tool\DataAnalysis_Tool\obj\Debug\ScatterSeriesWindow.g.cs
+D:\Classes Assignemtns\Thesis\DataAnalysis_Project\Thesis_Raimbault\DataAnalysis_Tool\DataAnalysis_Tool\obj\Debug\SIVMWindow.baml
+D:\Classes Assignemtns\Thesis\DataAnalysis_Project\Thesis_Raimbault\DataAnalysis_Tool\DataAnalysis_Tool\obj\Debug\SIVMWindow.g.cs

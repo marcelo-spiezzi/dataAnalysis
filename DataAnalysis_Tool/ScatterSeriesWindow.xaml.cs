@@ -41,6 +41,20 @@ namespace DataAnalysis_Tool
             GraphObj.Series.Add(scatter);
         }
 
+        public void addLines(List<KeyValuePair<double, double>> list)
+        {
+            var style = new Style();
+            style.TargetType = typeof(LineDataPoint);
+            style.Setters.Add(new Setter(BackgroundProperty, Brushes.Red));
+
+            LineSeries line = new LineSeries();
+            line.DependentValuePath = "Value";
+            line.IndependentValuePath = "Key";
+            line.DataPointStyle = style;
+            line.ItemsSource = list;
+            GraphObj.Series.Add(line);
+        }
+
         public void showMultipleSeries(List<KeyValuePair<double, double>>[] list, string title)
         {
             GraphObj.Title = title;

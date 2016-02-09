@@ -108,6 +108,9 @@
     <Compile Include="ScatterSeriesWindow.xaml.cs">
       <DependentUpon>ScatterSeriesWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SIVMWindow.xaml.cs">
+      <DependentUpon>SIVMWindow.xaml</DependentUpon>
+    </Compile>
     <Page Include="GraphTest.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -143,6 +146,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="ScatterSeriesWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SIVMWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
