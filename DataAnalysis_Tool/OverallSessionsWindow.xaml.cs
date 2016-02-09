@@ -243,7 +243,7 @@ namespace DataAnalysis_Tool
 
         private void ButtonBrowse(object sender, RoutedEventArgs e)
         {
-            ofd.Filter = "Text|*.txt|JSON|*.json";
+            ofd.Filter = "Main|*.main|Text|*.txt";
             ofd.Multiselect = false;
 
             ofd.InitialDirectory = "Desktop";
@@ -279,7 +279,8 @@ namespace DataAnalysis_Tool
             List<KeyValuePair<double, int>> valueList = new List<KeyValuePair<double, int>>();
 
             var q1 = savedValues[index].GroupBy(x => x)
-                    .Select(g => new { Value = g.Key, Count = g.Count() });
+                    .Select(g => new { Value = g.Key, Count = g.Count() })
+                    .OrderBy(x => x.Value);
 
             foreach (var x in q1) { valueList.Add(new KeyValuePair<double, int>(x.Value, x.Count)); }
 

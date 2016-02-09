@@ -43,7 +43,7 @@ namespace DataAnalysis_Tool
 
         private void ButtonBrowse(object sender, RoutedEventArgs e)
         {
-            ofd.Filter = "Text|*.txt|JSON|*.json";
+            ofd.Filter = "Points|*.points|Text|*.txt";
             ofd.Multiselect = false;
 
             ofd.InitialDirectory = "Desktop";

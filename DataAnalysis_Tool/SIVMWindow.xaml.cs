@@ -22,6 +22,7 @@ namespace DataAnalysis_Tool
     {
         char[] delimiterChars = { ',', ';' };
         double[][] importedValues;
+        double[][] savedVolumeCoordinates;
 
         Microsoft.Win32.OpenFileDialog ofd = new Microsoft.Win32.OpenFileDialog();
 
@@ -69,7 +70,7 @@ namespace DataAnalysis_Tool
 
         private void ButtonBrowse(object sender, RoutedEventArgs e)
         {
-            ofd.Filter = "Text|*.txt|JSON|*.json";
+            ofd.Filter = "Points|*.points|Text|*.txt";
             ofd.Multiselect = false;
 
             ofd.InitialDirectory = "Desktop";
@@ -95,6 +96,109 @@ namespace DataAnalysis_Tool
             this.Close();
         }
 
+        private void clearData()
+        {
+            valuesList.Items.Clear();
+            pointsCoordinatesLB.Items.Clear();
+        }
+
+        private double[][] SIVM_algorithm(double[][] points)
+        {
+            //number of points for the volume is 2^number of dimensions. i.e: 2D = square, 3D = cube, 4D = no idea how its called!
+            int dimensions = System.Convert.ToInt16(points[0].Length);
+            int numberOfPoints = System.Convert.ToInt16(Math.Pow(2, dimensions));
+            double[][] volumePoints = new double[numberOfPoints][];
+
+            //find a random P1 point in the sample
+            Random rnd = new Random();         
+            double[] P1 = points[rnd.Next(0, points.Length)];          
+
+            //from P1, find the most distant point -> P2
+            double[] P2 = findMostDistantPoint(points, P1);
+
+            //from P2, find the most distant point -> P3 (first volume coordinate)
+            volumePoints[0] = new double[dimensions];
+            volumePoints[0]  = findMostDistantPoint(points, P2);
+
+            //from P3, find the most distant point -> P4 (second volume coordinate)
+            volumePoints[1] = new double[dimensions];
+            volumePoints[1] = findMostDistantPoint(points, volumePoints[0]);
+
+            //Calculate the most distant point from P3 and P4 -> P5
+            for(int i = 2; i < numberOfPoints; i++) //two first points are already allocated
+            {
+                volumePoints[i] = new double[dimensions]; 
+                double[][] currentPoints = new double[i][];
+                for(int j = 0; j < i; j++)
+                {
+                    currentPoints[j] = new double[dimensions];
+                    currentPoints[j] = volumePoints[j];
+                }
+                volumePoints[i] = findMostDistantPointFromMult(points, currentPoints);
+            }
+
+            return volumePoints;
+        }
+
+        private double[] findMostDistantPoint(double[][] allPoints, double[] refPoint)
+        {
+            double[] mostDistantPoint = new double[refPoint.Length];
+            double maxDist = 0;
+
+            //from ref point find the most distant point
+            for (int i = 0; i < allPoints.Length; i++)
+            {
+                double d = 0;
+                for (int j = 0; j < allPoints[i].Length; j++)
+                    d += (refPoint[j] - allPoints[i][j]) * (refPoint[j] - allPoints[i][j]);
+                d = Math.Sqrt(d);
+                if (d > maxDist)
+                {
+                    maxDist = d;
+                    mostDistantPoint = allPoints[i];
+                }
+            }
+            return mostDistantPoint;
+        }
+
+        private double[] findMostDistantPointFromMult(double[][] allPoints, double[][] refPoints)
+        {
+            double[] mostDistantPoint = new double[refPoints[0].Length];
+
+            double maxDist = 0;
+            bool isTheSamePoint = false;
+
+            //from ref point find the most distant point
+            for (int i = 0; i < allPoints.Length; i++)
+            {
+                double sumPointDist = 0;
+                // check to not compare with point that has already been used
+                isTheSamePoint = false;
+                for (int j = 0; j < refPoints.Length; j++)
+                    if (allPoints[i] == refPoints[j]) isTheSamePoint = true;
+                if (!isTheSamePoint)
+                {
+                    for (int j = 0; j < refPoints.Length; j++)
+                    {
+                        if (allPoints[i] != refPoints[j])
+                        {
+                            double d = 0;
+                            for (int k = 0; k < refPoints[j].Length; k++)
+                                d += (refPoints[j][k] - allPoints[i][k]) * (refPoints[j][k] - allPoints[i][k]);
+                            d = Math.Sqrt(d);
+                            sumPointDist = d;
+                        }
+                    }
+                    if (sumPointDist > maxDist)
+                    {
+                        maxDist = sumPointDist;
+                        mostDistantPoint = allPoints[i];
+                    }
+                }   
+            }
+            return mostDistantPoint;
+        }
+
         private void SaveOutputButton_Click(object sender, RoutedEventArgs e)
         {
 
@@ -102,6 +206,7 @@ namespace DataAnalysis_Tool
 
         private void ButtonImport(object sender, RoutedEventArgs e)
         {
+            clearData();
             string[] fileEntries = analyzeFile();
             importedValues = new double[fileEntries.Length][];
 
@@ -110,10 +215,6 @@ namespace DataAnalysis_Tool
             for (int i = 0; i < fileEntries.Length; i++)
             {
                 double[] a = Array.ConvertAll(fileEntries[i].Split(delimiterChars), Double.Parse);
-                if (i == 0)
-                {
-                    
-                }
                 importedValues[i] = a;
             }
 
@@ -150,7 +251,15 @@ namespace DataAnalysis_Tool
 
         private void ButtonAnalyze(object sender, RoutedEventArgs e)
         {
-
+            savedVolumeCoordinates = SIVM_algorithm(importedValues);
+            
+            for(int i = 0; i < savedVolumeCoordinates.Length; i++){
+                string item = "";
+                for(int k = 0; k < savedVolumeCoordinates[i].Length; k++)
+                    item += savedVolumeCoordinates[i][k] + " ,";
+                pointsCoordinatesLB.Items.Add(item);
+            }
+            
             GraphButton2.IsEnabled = true;
         }
 
@@ -166,6 +275,19 @@ namespace DataAnalysis_Tool
 
             win.Show();
             win.showChart(list, "Data distribution");
+
+            for (int i = 0; i < savedVolumeCoordinates.Length ; i++)
+            {
+                List<KeyValuePair<double, double>> point = new List<KeyValuePair<double, double>>();
+                point.Add(new KeyValuePair<double, double>(savedVolumeCoordinates[i][0], savedVolumeCoordinates[i][1]));
+                if (i < savedVolumeCoordinates.Length - 1)
+                    point.Add(new KeyValuePair<double, double>(savedVolumeCoordinates[i+1][0], savedVolumeCoordinates[i+1][1]));
+                else
+                    point.Add(new KeyValuePair<double, double>(savedVolumeCoordinates[0][0], savedVolumeCoordinates[0][1]));
+                win.addLines(point);
+            }
+            
+
         }
     }
 }

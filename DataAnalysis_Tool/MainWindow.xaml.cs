@@ -74,7 +74,7 @@ namespace DataAnalysis_Tool
 
         private void ButtonBrowse(object sender, RoutedEventArgs e)
         {
-            ofd.Filter = "Text|*.txt|JSON|*.json";
+            ofd.Filter = "CSV|*.csv|Text|*.txt";
             ofd.Multiselect = false;
 
             ofd.InitialDirectory = "Desktop";
@@ -501,7 +501,7 @@ namespace DataAnalysis_Tool
             tbDeathStarved.Text = deathsByStarve.ToString();
         }
 
-        //not in use now, should be used with displayAllSessionsOnViewer()
+        //used with displayAllSessionsOnViewer()
         private void printListsScreen(List<string> list, ListBox listToPrint, TextBox listTotal)
         {
             var q1 = list.GroupBy(x => x)
