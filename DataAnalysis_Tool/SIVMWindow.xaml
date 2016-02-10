@@ -10,7 +10,7 @@
         <Button Content="Import" Margin="423,37,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="81" Click="ButtonImport"/>
         <Button x:Name="BrowseInput" Content="Browse" HorizontalAlignment="Left" Margin="331,37,0,0" VerticalAlignment="Top" Width="75" Click="ButtonBrowse"/>
         <TextBox x:Name="filePath" HorizontalAlignment="Left" Height="23" Margin="11,36,0,0" TextWrapping="Wrap" Text="C:\Users\Cohort23\Desktop\kmeans_example - Copy.txt" VerticalAlignment="Top" Width="298"/>
-        <TextBlock x:Name="UserMessage" HorizontalAlignment="Right" Margin="0,9,259.6,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="22" Width="498" TextAlignment="Right" FontWeight="Bold" FontSize="14"/>
+        <TextBlock x:Name="UserMessage" HorizontalAlignment="Right" Margin="0,9,13.2,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="22" Width="498" TextAlignment="Right" FontWeight="Bold" FontSize="14"/>
         <TextBlock HorizontalAlignment="Left" Margin="11,20,0,0" TextWrapping="Wrap" Text="File path:" VerticalAlignment="Top"/>
         <Button x:Name="Return" Content="Return" HorizontalAlignment="Left" Margin="519,37,0,0" VerticalAlignment="Top" Width="75" Click="ReturnToMainButton" RenderTransformOrigin="0.5,0.5"/>
         <Button x:Name="SaveOutputButton" Content="Save Output" HorizontalAlignment="Left" Margin="522,0,0,28" VerticalAlignment="Bottom" Width="75" Click="SaveOutputButton_Click" IsEnabled="False"/>

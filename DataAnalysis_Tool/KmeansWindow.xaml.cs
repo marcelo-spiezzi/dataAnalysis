@@ -21,6 +21,7 @@ namespace DataAnalysis_Tool
     public partial class KmeansWindow : Window
     {
         double[][] importedValues;
+        double[] importedValuesIDs;
         double[] avgDistances;
         double[][] finalMeans;
         int usedRandom;
@@ -120,6 +121,7 @@ namespace DataAnalysis_Tool
         {            
             string[] fileEntries = analyzeFile();
             importedValues = new double[fileEntries.Length][];
+            importedValuesIDs = new double[fileEntries.Length];
 
             valuesList.Items.Clear();
 
@@ -130,7 +132,13 @@ namespace DataAnalysis_Tool
                 {
                     tbDimensions.Text = a.Length.ToString();
                 }
-                importedValues[i] = a;
+                //separting IDs from actual data points (first data field is session ID)
+                double[] b = new double[a.Length - 1];
+                for (int j = 0; j < b.Length; j++)
+                    b[j] = a[j + 1];
+
+                importedValuesIDs[i] = a[0];
+                importedValues[i] = b;
             }
 
             //Im adding the values to the ListBox here and not on the later for just to double check the created list is correct
@@ -157,7 +165,8 @@ namespace DataAnalysis_Tool
             avgDistanceList.Items.Clear();
             avgDistClusterList.Items.Clear();
             normalizedValuesList.Items.Clear();
-            meansList.Items.Clear();           
+            meansList.Items.Clear();
+            numTulpsPerClusterList.Items.Clear();
         }
 
         private void analyzeList()
@@ -173,10 +182,22 @@ namespace DataAnalysis_Tool
 
         private void printClustersToList(int[] clusteredData, double[][] means, double[][] data)
         {
+            int[] tulpsPerCluster = new int[numberOfClusters];
+
+            for (int i = 0; i < clusteredData.Length; i++)
+            {
+                for (int k = 0; k < numberOfClusters; k++)
+                {
+                   if (clusteredData[i] == k)  tulpsPerCluster[k]++;
+                }
+            }
+
             for (int k = 0; k < numberOfClusters; k++)
             {
                 analyzedList.Items.Add("== Cluster " + k +  " ==");
                 normalizedValuesList.Items.Add("== Cluster " + k + " ==");
+                double a = (System.Convert.ToDouble(tulpsPerCluster[k]) / System.Convert.ToDouble(clusteredData.Length))*100;
+                numTulpsPerClusterList.Items.Add(tulpsPerCluster[k] + " | " + a.ToString("F2") + "%");
 
                 for (int i = 0; i < importedValues.Length; i++)
                 {
@@ -185,7 +206,7 @@ namespace DataAnalysis_Tool
                     string item = "";
                     string normalizedItem = "";
                     for (int j = 0; j < importedValues[i].Length; j++)
-                    {
+                    {                        
                         if (j == 0)
                         {
                             normalizedItem = data[i][j].ToString("F6");
@@ -254,6 +275,20 @@ namespace DataAnalysis_Tool
             {            
                 File.AppendAllText(OutputFilePath.Text, "Cluster " + i + ": " + avgDistances[i].ToString("F4") + Environment.NewLine);
             }
+        }
+
+        private bool printSelectedClusterToFile(int id)
+        {
+            if (id > numberOfClusters || id < 0) return false;
+
+            for (int i = 0; i < importedValues.Length; i++)
+            {
+                int clusterID = clusteredData[i];
+                if (clusterID != id) continue;
+                File.AppendAllText(OutputFilePath.Text, importedValuesIDs[i] + Environment.NewLine);
+            }
+
+            return true;
         }
 
         public int[] Cluster(double[][] rawData, int numClusters, int randomSeed)
@@ -593,6 +628,13 @@ namespace DataAnalysis_Tool
             ModeSelectWindow win = new ModeSelectWindow();
             win.Show();
             this.Close();
+        }
+
+        private void ButtonSaveClusterIDs_Click(object sender, RoutedEventArgs e)
+        {
+            if (IsAllDigits(tbClusterToSave.Text))
+                if (!printSelectedClusterToFile(System.Convert.ToInt16(tbClusterToSave.Text)))
+                    messageToUser("please enter a valid number for the cluster");
         }
 
 

@@ -22,6 +22,7 @@ namespace DataAnalysis_Tool
     {
         char[] delimiterChars = { ',', ';' };
         double[][] importedValues;
+        double[] importedValuesIDs;
         double[][] savedVolumeCoordinates;
 
         Microsoft.Win32.OpenFileDialog ofd = new Microsoft.Win32.OpenFileDialog();
@@ -201,7 +202,17 @@ namespace DataAnalysis_Tool
 
         private void SaveOutputButton_Click(object sender, RoutedEventArgs e)
         {
-
+            for (int i = 0; i < savedVolumeCoordinates.Length; i++)
+            {
+                string a = "";
+                for (int j = 0; j < savedVolumeCoordinates[i].Length; j++)
+                {
+                    if (j == 0) a = importedValuesIDs[i] + "," + savedVolumeCoordinates[i][j].ToString();
+                    else a += "," + savedVolumeCoordinates[i][j].ToString();                  
+                }
+                File.AppendAllText(OutputFilePath.Text, a + Environment.NewLine);
+            }
+                    
         }
 
         private void ButtonImport(object sender, RoutedEventArgs e)
@@ -209,13 +220,20 @@ namespace DataAnalysis_Tool
             clearData();
             string[] fileEntries = analyzeFile();
             importedValues = new double[fileEntries.Length][];
+            importedValuesIDs = new double[fileEntries.Length];
 
             valuesList.Items.Clear();
 
             for (int i = 0; i < fileEntries.Length; i++)
             {
                 double[] a = Array.ConvertAll(fileEntries[i].Split(delimiterChars), Double.Parse);
-                importedValues[i] = a;
+                //separting IDs from actual data points (first data field is session ID)
+                double[] b = new double[a.Length - 1];
+                for (int j = 0; j < b.Length; j++)
+                    b[j] = a[j + 1];
+
+                importedValuesIDs[i] = a[0];
+                importedValues[i] = b;
             }
 
             //Im adding the values to the ListBox here and not on the later for just to double check the created list is correct
@@ -259,7 +277,7 @@ namespace DataAnalysis_Tool
                     item += savedVolumeCoordinates[i][k] + " ,";
                 pointsCoordinatesLB.Items.Add(item);
             }
-            
+            SaveOutputButton.IsEnabled = true;
             GraphButton2.IsEnabled = true;
         }
 

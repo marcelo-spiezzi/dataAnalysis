@@ -51,5 +51,12 @@ namespace DataAnalysis_Tool
             win.Show();
             this.Close();
         }
+
+        private void Button_Click_5(object sender, RoutedEventArgs e)
+        {
+            FilterDataWindow win = new FilterDataWindow();
+            win.Show();
+            this.Close();
+        }
     }
 }

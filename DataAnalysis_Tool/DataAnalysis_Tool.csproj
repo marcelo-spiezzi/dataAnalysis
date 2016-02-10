@@ -105,12 +105,19 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="FilterDataWindow.xaml.cs">
+      <DependentUpon>FilterDataWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ScatterSeriesWindow.xaml.cs">
       <DependentUpon>ScatterSeriesWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="SIVMWindow.xaml.cs">
       <DependentUpon>SIVMWindow.xaml</DependentUpon>
     </Compile>
+    <Page Include="FilterDataWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="GraphTest.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

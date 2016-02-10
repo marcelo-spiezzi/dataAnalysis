@@ -145,38 +145,39 @@ namespace DataAnalysis_Tool
         private int printToFile(string[] fileEntries, bool[] filters)
         {
             int numberOfFilters = 0;
-          
+            //check how many filters are being requested by user
             for (int i = 0; i < filters.Length; i++)
             {
                 if (filters[i]) { numberOfFilters++; }
             }
-
+            //if none dont do anything
             if (numberOfFilters == 0) return 0;
-
-            double[][] points = allocateList(fileEntries.Length, numberOfFilters);
-
+            //otherwise allocate an empty matrix to help with next step ( [number of data points] x [number of filters] )
+            double[][] points = allocateList(fileEntries.Length, numberOfFilters+1); //+1 to add a collumn for the session ID
+            //
             for(int i = 0; i < fileEntries.Length ; i++)
             {
                 string[] entries = fileEntries[i].Split(delimiterChars);
-                int pos = 0;
+                int pos = 1;        //position to save in the matrix - starts at 1, because 0 is the session ID
 
-                for(int j = 0; j < numberOfFilters; j++)
+                for(int j = 0; j < filters.Length; j++)
                 {                   
-                    if (filters[j])
+                    if (filters[j]) //if this filter is being used, add that field to the matrix
                     {
-                        points[i][pos] = System.Convert.ToDouble(entries[j+2]);
-                        pos++;
+                        points[i][0] = System.Convert.ToDouble(entries[0]);     //save the session ID
+                        points[i][pos] = System.Convert.ToDouble(entries[j+2]); //+2 to ignore first two fields, session ID and name
+                        pos++;                                                  //only increment position if the filed was actually used
                     }                 
                 }
             }
-
+            //converts the matrix to display all filters for that data point in the same line
             for (int i = 0; i < points.Length; i++)
             {
                 string item = "";
                 for (int j = 0; j < points[i].Length; j++)
                 {
-                    if (j == 0) item = points[i][j].ToString("F6");
-                    else item += "," + points[i][j].ToString("F6");                   
+                    if (j == 0) item = points[i][j].ToString();
+                    else item += "," + points[i][j].ToString("F4");                   
                 }
                 File.AppendAllText(filePathOutput.Text, item + Environment.NewLine);
             }                 
@@ -190,14 +191,12 @@ namespace DataAnalysis_Tool
             double[][] points = new double[numberOfEntries][];
 
             for (int i = 0; i < numberOfEntries; i++)
-            {
                 for (int j = 0; j < numberOfDimensions; j++)
                 {
                     points[i] = new double[numberOfDimensions];
                     points[i][j] = 0.0;
-                }
-            }              
-
+                }         
+  
             return points;
         }
 
