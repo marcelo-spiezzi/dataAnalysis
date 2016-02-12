@@ -22,7 +22,7 @@
         <Button Content="Analyze" HorizontalAlignment="Left" Margin="354,89.8,0,0" VerticalAlignment="Top" Width="75" Click="ButtonAnalyze" Grid.Row="4"/>
         <Button x:Name="BrowseInput" Content="Browse" HorizontalAlignment="Left" Margin="268,88.8,0,0" VerticalAlignment="Top" Width="75" Click="ButtonBrowse" Grid.Row="4"/>
         <Button x:Name="PDFReportButton" Content="Create PDF Report" HorizontalAlignment="Left" Margin="875,45.8,0,0" VerticalAlignment="Top" Width="145" Click="ClickCreateReport" Grid.Row="4" IsEnabled="False"/>
-        <TextBox x:Name="filePath" HorizontalAlignment="Left" Height="23" Margin="10,88.8,0,0" TextWrapping="Wrap" Text="C:\Users\Cohort23\Desktop\Test Multiple.txt" VerticalAlignment="Top" Width="253" Grid.Row="4"/>
+        <TextBox x:Name="filePath" HorizontalAlignment="Left" Height="23" Margin="10,88.8,0,0" TextWrapping="Wrap" Text="D:\Classes Assignemtns\Thesis\Data\" VerticalAlignment="Top" Width="253" Grid.Row="4"/>
         <TextBlock x:Name="ImportMessage" HorizontalAlignment="Right" Margin="0,89.6,10,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="22" Width="493" TextAlignment="Right" Grid.Row="4" FontWeight="Bold"/>
         <TextBlock HorizontalAlignment="Left" Margin="10,72.8,0,0" TextWrapping="Wrap" Text="File path:" VerticalAlignment="Top" Grid.Row="4"/>
         <Button x:Name="ActionsPieChartButton" Content="Actions Distribution" HorizontalAlignment="Left" Margin="567,13.8,0,0" VerticalAlignment="Top" Width="114" Click="ClickActionsDistribution" Height="43" Grid.Row="4" IsEnabled="False"/>
@@ -83,7 +83,7 @@
         <TextBlock x:Name="textBlock_Copy20" HorizontalAlignment="Left" Margin="440,167.6,0,0" TextWrapping="Wrap" Text="Total:" VerticalAlignment="Top" Width="40" Grid.Row="2"/>
         <TextBox x:Name="tbTotalHuntedPlayers" HorizontalAlignment="Left" Margin="524,169.6,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="94" Background="White" Height="19" Grid.Row="2" TextAlignment="Right" IsEnabled="False"/>
         <Button x:Name="AddToOutputButton" Content="Add to output file" HorizontalAlignment="Left" Margin="941,96.5,0,0" VerticalAlignment="Top" Width="102" Click="ClickAddFile" Grid.Row="3" IsEnabled="False" Grid.RowSpan="2"/>
-        <TextBox x:Name="fileOutputPath" HorizontalAlignment="Left" Height="23" Margin="830,64.5,0,0" TextWrapping="Wrap" Text="C:\Users\Cohort23\Desktop\OutputFile.txt" VerticalAlignment="Top" Width="215" Grid.Row="3"/>
+        <TextBox x:Name="fileOutputPath" HorizontalAlignment="Left" Height="23" Margin="830,64.5,0,0" TextWrapping="Wrap" Text="D:\Classes Assignemtns\Thesis\Data\" VerticalAlignment="Top" Width="215" Grid.Row="3"/>
         <TextBlock HorizontalAlignment="Left" Margin="830,43.5,0,0" TextWrapping="Wrap" Text="Output text file path:" VerticalAlignment="Top" Grid.Row="3" Width="128"/>
         <Button x:Name="BrowseOutput" Content="Browse" HorizontalAlignment="Left" Margin="853,96.5,0,0" VerticalAlignment="Top" Width="75" Click="ButtonBrowse" Grid.Row="3" Grid.RowSpan="2"/>
         <Button x:Name="Return" Content="Return" HorizontalAlignment="Left" Margin="439,89.8,0,0" VerticalAlignment="Top" Width="75" Click="ReturnToMainButton" Grid.Row="4" RenderTransformOrigin="0.5,0.5"/>

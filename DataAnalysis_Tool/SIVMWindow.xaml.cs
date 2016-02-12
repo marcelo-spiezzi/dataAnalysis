@@ -25,6 +25,12 @@ namespace DataAnalysis_Tool
         double[] importedValuesIDs;
         double[][] savedVolumeCoordinates;
 
+        struct calculatedPoint
+        {
+            public double[] pointValue;
+            public int pointID;
+        }
+
         Microsoft.Win32.OpenFileDialog ofd = new Microsoft.Win32.OpenFileDialog();
 
         public SIVMWindow()
@@ -109,25 +115,34 @@ namespace DataAnalysis_Tool
             int dimensions = System.Convert.ToInt16(points[0].Length);
             int numberOfPoints = System.Convert.ToInt16(Math.Pow(2, dimensions));
             double[][] volumePoints = new double[numberOfPoints][];
+            double[] volumePointsID = new double[numberOfPoints];
+
+            //normalize data
+            double[][] normalizedData = normalizeData(points);
 
             //find a random P1 point in the sample
-            Random rnd = new Random();         
-            double[] P1 = points[rnd.Next(0, points.Length)];          
+            Random rnd = new Random();
+            double[] P1 = normalizedData[rnd.Next(0, normalizedData.Length)];          
 
             //from P1, find the most distant point -> P2
-            double[] P2 = findMostDistantPoint(points, P1);
+            calculatedPoint P2 = findMostDistantPoint(normalizedData, P1);
 
             //from P2, find the most distant point -> P3 (first volume coordinate)
             volumePoints[0] = new double[dimensions];
-            volumePoints[0]  = findMostDistantPoint(points, P2);
+            calculatedPoint P3 = findMostDistantPoint(normalizedData, P2.pointValue);
+            volumePoints[0] = P3.pointValue;
+            volumePointsID[0] = P3.pointID;
 
             //from P3, find the most distant point -> P4 (second volume coordinate)
             volumePoints[1] = new double[dimensions];
-            volumePoints[1] = findMostDistantPoint(points, volumePoints[0]);
+            calculatedPoint P4 = findMostDistantPoint(normalizedData, P3.pointValue);
+            volumePoints[1] = P4.pointValue;
+            volumePointsID[1] = P4.pointID;
 
-            //Calculate the most distant point from P3 and P4 -> P5
+            //Calculate the most distant point from all points
             for(int i = 2; i < numberOfPoints; i++) //two first points are already allocated
             {
+                calculatedPoint PI = new calculatedPoint();
                 volumePoints[i] = new double[dimensions]; 
                 double[][] currentPoints = new double[i][];
                 for(int j = 0; j < i; j++)
@@ -135,15 +150,62 @@ namespace DataAnalysis_Tool
                     currentPoints[j] = new double[dimensions];
                     currentPoints[j] = volumePoints[j];
                 }
-                volumePoints[i] = findMostDistantPointFromMult(points, currentPoints);
+                PI = findMostDistantPointFromMult(normalizedData, currentPoints);
+                volumePoints[i] = PI.pointValue;
+                volumePointsID[i] = PI.pointID;
             }
 
-            return volumePoints;
+            //the calculation was made with normalized data, now we need to get the ids and save the actual points values
+            double[][] nonNormalizedVolPoints = new double[numberOfPoints][];
+
+            for (int i = 0; i < points.Length; i++)
+            {
+                for(int k = 0; k < volumePointsID.Length; k++)
+                {
+                    if(i == volumePointsID[k])
+                       nonNormalizedVolPoints[k] = points[i];
+                }               
+            }
+
+            return nonNormalizedVolPoints;
         }
 
-        private double[] findMostDistantPoint(double[][] allPoints, double[] refPoint)
+        private double[][] normalizeData(double[][] rawData)
         {
-            double[] mostDistantPoint = new double[refPoint.Length];
+            // normalize raw data by computing (x - mean) / stddev
+            // primary alternative is min-max:
+            // v' = (v - min) / (max - min)
+
+            // make a copy of input data
+            double[][] result = new double[rawData.Length][];
+            for (int i = 0; i < rawData.Length; ++i)
+            {
+                result[i] = new double[rawData[i].Length];
+                Array.Copy(rawData[i], result[i], rawData[i].Length);
+            }
+
+            for (int j = 0; j < result[0].Length; ++j) // each col
+            {
+                double colSum = 0.0;
+                for (int i = 0; i < result.Length; ++i)
+                    colSum += result[i][j];
+                double mean = colSum / result.Length;
+                double sum = 0.0;
+                for (int i = 0; i < result.Length; ++i)
+                    sum += (result[i][j] - mean) * (result[i][j] - mean);
+                double sd = sum / result.Length;
+                for (int i = 0; i < result.Length; ++i)
+                    result[i][j] = (result[i][j] - mean) / sd;
+            }
+            return result;
+        }
+
+        private calculatedPoint findMostDistantPoint(double[][] allPoints, double[] refPoint)
+        {
+            calculatedPoint mostDistantPoint = new calculatedPoint();
+            mostDistantPoint.pointValue = new double[refPoint.Length];
+            mostDistantPoint.pointID = 0;
+
             double maxDist = 0;
 
             //from ref point find the most distant point
@@ -156,15 +218,18 @@ namespace DataAnalysis_Tool
                 if (d > maxDist)
                 {
                     maxDist = d;
-                    mostDistantPoint = allPoints[i];
+                    mostDistantPoint.pointValue = allPoints[i];
+                    mostDistantPoint.pointID = i;
                 }
             }
             return mostDistantPoint;
         }
 
-        private double[] findMostDistantPointFromMult(double[][] allPoints, double[][] refPoints)
+        private calculatedPoint findMostDistantPointFromMult(double[][] allPoints, double[][] refPoints)
         {
-            double[] mostDistantPoint = new double[refPoints[0].Length];
+            calculatedPoint mostDistantPoint = new calculatedPoint();
+            mostDistantPoint.pointValue = new double[refPoints[0].Length];
+            mostDistantPoint.pointID = 0;
 
             double maxDist = 0;
             bool isTheSamePoint = false;
@@ -193,7 +258,8 @@ namespace DataAnalysis_Tool
                     if (sumPointDist > maxDist)
                     {
                         maxDist = sumPointDist;
-                        mostDistantPoint = allPoints[i];
+                        mostDistantPoint.pointValue = allPoints[i];
+                        mostDistantPoint.pointID = i;
                     }
                 }   
             }

@@ -7,12 +7,12 @@
             <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}"/>
         </Grid.Background>
         <TextBox x:Name="tbKValue" HorizontalAlignment="Left" Height="23" Margin="252,238,0,0" TextWrapping="Wrap" Text="3" VerticalAlignment="Top" Width="51"/>
-        <Button Content="Import" HorizontalAlignment="Left" Margin="401,26,-13.6,0" VerticalAlignment="Top" Width="75" Click="importFile"/>
-        <Button x:Name="BrowseInput" Content="Browse" HorizontalAlignment="Left" Margin="311,26,0,0" VerticalAlignment="Top" Width="75" Click="ButtonBrowse"/>
-        <TextBox x:Name="filePath" HorizontalAlignment="Left" Height="23" Margin="10,26,0,0" TextWrapping="Wrap" Text="C:\Users\Cohort23\Desktop\kmeans_example.txt" VerticalAlignment="Top" Width="279"/>
+        <Button Content="Import" HorizontalAlignment="Left" Margin="580,26,0,0" VerticalAlignment="Top" Width="75" Click="importFile"/>
+        <Button x:Name="BrowseInput" Content="Browse" HorizontalAlignment="Left" Margin="490,26,0,0" VerticalAlignment="Top" Width="75" Click="ButtonBrowse"/>
+        <TextBox x:Name="filePath" HorizontalAlignment="Left" Height="23" Margin="10,26,0,0" TextWrapping="Wrap" Text="D:\Classes Assignemtns\Thesis\Data\" VerticalAlignment="Top" Width="449"/>
         <TextBlock HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" Text="File path:" VerticalAlignment="Top"/>
         <TextBlock HorizontalAlignment="Left" Margin="202,242,0,0" TextWrapping="Wrap" Text="K value:" VerticalAlignment="Top" Width="45" Height="16" IsHitTestVisible="False" RenderTransformOrigin="0.649,0.409"/>
-        <TextBlock x:Name="UserMessage" Margin="0,26,21.4,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="22" FontWeight="Bold" TextAlignment="Right" HorizontalAlignment="Right" RenderTransformOrigin="0.5,0.5" Width="663"/>
+        <TextBlock x:Name="UserMessage" Margin="0,26,21.4,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="22" FontWeight="Bold" TextAlignment="Right" HorizontalAlignment="Right" RenderTransformOrigin="0.5,0.5" Width="404"/>
         <TextBox x:Name="tbDimensions" HorizontalAlignment="Left" Height="23" Margin="253,199,0,0" TextWrapping="Wrap" Text="3" VerticalAlignment="Top" Width="51" IsEnabled="False"/>
         <TextBlock HorizontalAlignment="Left" Margin="183,202,0,0" TextWrapping="Wrap" Text="Dimensions:" VerticalAlignment="Top" Width="69" Height="16" IsHitTestVisible="False" RenderTransformOrigin="0.649,0.409"/>
         <ListBox x:Name="valuesList" Margin="24,81,0,94.8" HorizontalAlignment="Left" Width="151"/>
@@ -22,9 +22,9 @@
         <Button x:Name="ClusterGraph" Content="Show Graph" HorizontalAlignment="Right" Margin="0,0,703.4,62.8" VerticalAlignment="Bottom" Width="151" Click="Button_Click_1" IsEnabled="False"/>
         <TextBox x:Name="tbRndSeed" HorizontalAlignment="Left" Height="23" Margin="252,277,0,0" TextWrapping="Wrap" Text="3" VerticalAlignment="Top" Width="51"/>
         <TextBlock HorizontalAlignment="Left" Margin="184,280,0,0" TextWrapping="Wrap" Text="Rnd Seed:" VerticalAlignment="Top" Width="63" Height="16" IsHitTestVisible="False" RenderTransformOrigin="0.649,0.409"/>
-        <Button x:Name="SaveOutputButton" Content="Save Output" HorizontalAlignment="Left" Margin="397,0,0,14.8" VerticalAlignment="Bottom" Width="75" Click="SaveOutputButton_Click" IsEnabled="False"/>
-        <Button x:Name="BrowseOutput" Content="Browse" HorizontalAlignment="Left" Margin="311,0,0,14.8" VerticalAlignment="Bottom" Width="75" Click="ButtonBrowse"/>
-        <TextBox x:Name="OutputFilePath" HorizontalAlignment="Left" Height="23" Margin="10,0,0,14.8" TextWrapping="Wrap" Text="C:\Users\Cohort23\Desktop\kmeans_results.txt" VerticalAlignment="Bottom" Width="279"/>
+        <Button x:Name="SaveOutputButton" Content="Save Output" HorizontalAlignment="Left" Margin="580,0,0,15" VerticalAlignment="Bottom" Width="75" Click="SaveOutputButton_Click" IsEnabled="False"/>
+        <Button x:Name="BrowseOutput" Content="Browse" HorizontalAlignment="Left" Margin="494,0,0,15" VerticalAlignment="Bottom" Width="75" Click="ButtonBrowse"/>
+        <TextBox x:Name="OutputFilePath" HorizontalAlignment="Left" Height="23" Margin="10,0,0,15" TextWrapping="Wrap" Text="D:\Classes Assignemtns\Thesis\Data\" VerticalAlignment="Bottom" Width="449"/>
         <TextBlock HorizontalAlignment="Left" Margin="10,0,0,37.8" TextWrapping="Wrap" Text="Output File path:" VerticalAlignment="Bottom"/>
         <ListBox x:Name="meansList" Margin="0,0,207.4,95" HorizontalAlignment="Right" RenderTransformOrigin="0.5,0.5" Width="316" VerticalAlignment="Bottom" Height="125"/>
         <TextBlock HorizontalAlignment="Left" Margin="666,0,0,221.4" TextWrapping="Wrap" Text="Means:" VerticalAlignment="Bottom" Width="69" Height="16" IsHitTestVisible="False" RenderTransformOrigin="0.649,0.409"/>
@@ -37,15 +37,17 @@
         <ListBox x:Name="avgDistClusterList" Margin="0,82,375.4,306.8" HorizontalAlignment="Right" RenderTransformOrigin="0.5,0.5" Width="148"/>
         <TextBlock HorizontalAlignment="Left" Margin="666,59,0,0" TextWrapping="Wrap" Text="Avg distance per cluster" VerticalAlignment="Top" Width="148" Height="16" IsHitTestVisible="False" RenderTransformOrigin="0.649,0.409"/>
         <TextBox x:Name="tbAvgDistance" HorizontalAlignment="Right" Height="23" Margin="0,0,375.4,252.8" TextWrapping="Wrap" VerticalAlignment="Bottom" Width="148"/>
-        <TextBlock HorizontalAlignment="Left" Margin="666,0,0,285.4" TextWrapping="Wrap" Text="Total Average Distance" VerticalAlignment="Bottom" Width="148" Height="16" IsHitTestVisible="False" RenderTransformOrigin="0.649,0.409"/>
+        <TextBlock HorizontalAlignment="Right" Margin="0,0,375.4,285" TextWrapping="Wrap" Text="Total Average Distance" VerticalAlignment="Bottom" Width="148" Height="16" IsHitTestVisible="False" RenderTransformOrigin="0.649,0.409"/>
         <CheckBox Content="Normalize Data" HorizontalAlignment="Left" Margin="205,166,0,0" VerticalAlignment="Top" Checked="CheckBox_Checked" Unchecked="CheckBox_Unchecked" IsChecked="True"/>
-        <Button Content="Return" HorizontalAlignment="Left" Margin="484,0,0,15.8" VerticalAlignment="Bottom" Width="75" Click="Button_Click_2"/>
+        <Button Content="Return" HorizontalAlignment="Left" Margin="676,26,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click_2"/>
         <ListBox x:Name="numTulpsPerClusterList" Margin="0,82,207.4,307" HorizontalAlignment="Right" RenderTransformOrigin="0.5,0.5" Width="148"/>
         <TextBlock HorizontalAlignment="Left" Margin="833,59,0,0" TextWrapping="Wrap" Text="Num of Tulps per cluster" VerticalAlignment="Top" Width="148" Height="16" IsHitTestVisible="False" RenderTransformOrigin="0.649,0.409"/>
-        <Button x:Name="ButtonSaveClusterIDs" Content="Save cluster sessions ID" HorizontalAlignment="Left" Margin="678,0,0,16" VerticalAlignment="Bottom" Width="136" Height="23" Click="ButtonSaveClusterIDs_Click"/>
-        <TextBox x:Name="tbClusterToSave" HorizontalAlignment="Right" Height="23" Margin="0,0,375.4,44" TextWrapping="Wrap" VerticalAlignment="Bottom" Width="42"/>
-        <TextBlock HorizontalAlignment="Left" Margin="610,0,0,47" TextWrapping="Wrap" Text="Cluster to save sessions ID" VerticalAlignment="Bottom" Width="148" Height="16" IsHitTestVisible="False" RenderTransformOrigin="0.649,0.409"/>
-        <TextBlock HorizontalAlignment="Left" Margin="833,0,0,18" TextWrapping="Wrap" Text="Uses the same output path. Remember to change it!" VerticalAlignment="Bottom" Width="294" Height="16" IsHitTestVisible="False" RenderTransformOrigin="0.649,0.409"/>
+        <Button x:Name="ButtonSaveClusterIDs" Content="Save cluster sessions ID" HorizontalAlignment="Left" Margin="730,0,0,16" VerticalAlignment="Bottom" Width="136" Height="23" Click="ButtonSaveClusterIDs_Click"/>
+        <TextBox x:Name="tbClusterToSave" HorizontalAlignment="Right" Height="23" Margin="0,0,250.4,44" TextWrapping="Wrap" VerticalAlignment="Bottom" Width="42"/>
+        <TextBlock HorizontalAlignment="Left" Margin="734,0,0,47" TextWrapping="Wrap" Text="Cluster to save sessions ID" VerticalAlignment="Bottom" Width="148" Height="16" IsHitTestVisible="False" RenderTransformOrigin="0.649,0.409"/>
+        <TextBlock HorizontalAlignment="Left" Margin="885,0,0,18" TextWrapping="Wrap" Text="Uses the same output path. Remember to change it!" VerticalAlignment="Bottom" Width="294" Height="16" IsHitTestVisible="False" RenderTransformOrigin="0.649,0.409"/>
+        <TextBox x:Name="tbMeansAvgDist" HorizontalAlignment="Right" Height="23" Margin="0,0,208.4,253" TextWrapping="Wrap" VerticalAlignment="Bottom" Width="148"/>
+        <TextBlock HorizontalAlignment="Right" Margin="0,0,207.4,286" TextWrapping="Wrap" Text="Means Average Distance" VerticalAlignment="Bottom" Width="148" Height="16" IsHitTestVisible="False" RenderTransformOrigin="0.649,0.409"/>
 
     </Grid>
 </Window>

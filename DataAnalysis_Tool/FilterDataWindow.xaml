@@ -6,23 +6,23 @@
         <Grid.Background>
             <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}"/>
         </Grid.Background>
-        <Button Content="Import" Margin="423,37,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="81" Click="ButtonImport"/>
-        <Button x:Name="BrowseInput" Content="Browse" HorizontalAlignment="Left" Margin="331,37,0,0" VerticalAlignment="Top" Width="75" Click="ButtonBrowse"/>
-        <TextBox x:Name="filePath" HorizontalAlignment="Left" Height="23" Margin="11,36,0,0" TextWrapping="Wrap" Text="C:\Users\Cohort23\Desktop\kmeans_example - Copy.txt" VerticalAlignment="Top" Width="298"/>
+        <Button Content="Import" Margin="515,37,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="81" Click="ButtonImport"/>
+        <Button x:Name="BrowseInput" Content="Browse" HorizontalAlignment="Left" Margin="423,37,0,0" VerticalAlignment="Top" Width="75" Click="ButtonBrowse"/>
+        <TextBox x:Name="filePath" HorizontalAlignment="Left" Height="23" Margin="11,36,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="395" Text="D:\Classes Assignemtns\Thesis\Data\"/>
         <TextBlock x:Name="UserMessage" HorizontalAlignment="Right" Margin="0,9,17,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="22" Width="498" TextAlignment="Right" FontWeight="Bold" FontSize="14"/>
         <TextBlock HorizontalAlignment="Left" Margin="11,20,0,0" TextWrapping="Wrap" Text="File path:" VerticalAlignment="Top"/>
-        <Button x:Name="Return" Content="Return" HorizontalAlignment="Left" Margin="519,37,0,0" VerticalAlignment="Top" Width="75" Click="ReturnToMainButton" RenderTransformOrigin="0.5,0.5"/>
-        <Button x:Name="SaveOutputButton" Content="Save Output" HorizontalAlignment="Left" Margin="432,0,0,10.8" VerticalAlignment="Bottom" Width="75" Click="SaveOutputButton_Click" IsEnabled="False"/>
-        <Button x:Name="BrowseOutput" Content="Browse" HorizontalAlignment="Left" Margin="331,0,0,10.8" VerticalAlignment="Bottom" Width="75" Click="ButtonBrowse"/>
-        <TextBox x:Name="OutputFilePath" HorizontalAlignment="Left" Height="23" Margin="11,0,0,10.8" TextWrapping="Wrap" Text="C:\Users\Cohort23\Desktop\kmeans_results.txt" VerticalAlignment="Bottom" Width="298"/>
+        <Button x:Name="Return" Content="Return" HorizontalAlignment="Left" Margin="519,88,0,0" VerticalAlignment="Top" Width="75" Click="ReturnToMainButton" RenderTransformOrigin="0.5,0.5"/>
+        <Button x:Name="SaveOutputButton" Content="Save Output" HorizontalAlignment="Left" Margin="524,0,0,10.8" VerticalAlignment="Bottom" Width="75" Click="SaveOutputButton_Click" IsEnabled="False"/>
+        <Button x:Name="BrowseOutput" Content="Browse" HorizontalAlignment="Left" Margin="423,0,0,10.8" VerticalAlignment="Bottom" Width="75" Click="ButtonBrowse"/>
+        <TextBox x:Name="OutputFilePath" HorizontalAlignment="Left" Height="23" Margin="11,0,0,10.8" TextWrapping="Wrap" Text="D:\Classes Assignemtns\Thesis\Data\" VerticalAlignment="Bottom" Width="395"/>
         <TextBlock HorizontalAlignment="Left" Margin="11,0,0,31.8" TextWrapping="Wrap" Text="Output File path:" VerticalAlignment="Bottom"/>
         <ListBox x:Name="importedLB" HorizontalAlignment="Left" Height="249" Margin="11,157,0,0" VerticalAlignment="Top" Width="227"/>
         <Button x:Name="AnalyzeButton" Content="Filter" HorizontalAlignment="Left" Margin="256,260,0,0" VerticalAlignment="Top" Width="91" Click="ButtonAnalyze" IsEnabled="False"/>
         <TextBlock HorizontalAlignment="Left" Margin="76,139,0,0" TextWrapping="Wrap" Text="Imported Values:" VerticalAlignment="Top"/>
         <ListBox x:Name="filteredLB" HorizontalAlignment="Left" Height="249" Margin="363,157,0,0" VerticalAlignment="Top" Width="231"/>
         <TextBlock HorizontalAlignment="Left" Margin="386,139,0,0" TextWrapping="Wrap" Text="Filtered Values:" VerticalAlignment="Top"/>
-        <Button x:Name="BrowseInputFilter" Content="Browse" HorizontalAlignment="Left" Margin="331,88,0,0" VerticalAlignment="Top" Width="75" Click="ButtonBrowse"/>
-        <TextBox x:Name="filePathFilter" HorizontalAlignment="Left" Height="23" Margin="11,87,0,0" TextWrapping="Wrap" Text="C:\Users\Cohort23\Desktop\kmeans_example - Copy.txt" VerticalAlignment="Top" Width="298"/>
+        <Button x:Name="BrowseInputFilter" Content="Browse" HorizontalAlignment="Left" Margin="423,88,0,0" VerticalAlignment="Top" Width="75" Click="ButtonBrowse"/>
+        <TextBox x:Name="filePathFilter" HorizontalAlignment="Left" Height="23" Margin="11,87,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="395" Text="D:\Classes Assignemtns\Thesis\Data\"/>
         <TextBlock HorizontalAlignment="Left" Margin="11,66,0,0" TextWrapping="Wrap" Text="Filter File:" VerticalAlignment="Top"/>
 
     </Grid>

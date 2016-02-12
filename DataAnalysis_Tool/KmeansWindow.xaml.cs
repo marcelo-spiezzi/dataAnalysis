@@ -23,6 +23,7 @@ namespace DataAnalysis_Tool
         double[][] importedValues;
         double[] importedValuesIDs;
         double[] avgDistances;
+        double avgMeansDistance;
         double[][] finalMeans;
         int usedRandom;
         int usedK;
@@ -237,6 +238,8 @@ namespace DataAnalysis_Tool
 
         private void printClustersToFile()
         {
+            int[] tulpsPerCluster = new int[numberOfClusters];
+
             File.AppendAllText(OutputFilePath.Text, "K= " + usedK + ", Random Seed= " + usedRandom + ", Normalized Data= " + usedNormalized + Environment.NewLine + Environment.NewLine);
             for (int k = 0; k < numberOfClusters; k++)
             {
@@ -254,21 +257,29 @@ namespace DataAnalysis_Tool
                     File.AppendAllText(OutputFilePath.Text, item + Environment.NewLine);
                 }
             }
-            File.AppendAllText(OutputFilePath.Text, Environment.NewLine +  "============ Centroids ============" + Environment.NewLine);
+            File.AppendAllText(OutputFilePath.Text, Environment.NewLine + "============ Distribution ============" + Environment.NewLine);
+            for (int i = 0; i < clusteredData.Length; i++)
+            {
+                for (int k = 0; k < numberOfClusters; k++)
+                {
+                    if (clusteredData[i] == k) tulpsPerCluster[k]++;
+                }
+            }
             for (int k = 0; k < numberOfClusters; k++)
             {
-                for (int i = 0; i < finalMeans.Length; i++)
+                double a = (System.Convert.ToDouble(tulpsPerCluster[k]) / System.Convert.ToDouble(clusteredData.Length)) * 100;
+                File.AppendAllText(OutputFilePath.Text, "Cluster " + k + ": " + tulpsPerCluster[k] + " | " + a.ToString("F2") + "%" + Environment.NewLine);
+            }
+            File.AppendAllText(OutputFilePath.Text, Environment.NewLine +  "============ Centroids ============" + Environment.NewLine);
+            for (int i = 0; i < finalMeans.Length; i++)
+            {
+                string mean = "";
+                for (int j = 0; j < finalMeans[i].Length; j++)
                 {
-                    int clusterID = clusteredData[i];
-                    if (clusterID != k) continue;
-                    string item = "";
-                    for (int j = 0; j < finalMeans[i].Length; j++)
-                    {
-                        if (j == 0) item = finalMeans[i][j].ToString("F4");
-                        else item = item + " | " + finalMeans[i][j].ToString("F4");
-                    }
-                    File.AppendAllText(OutputFilePath.Text, "Cluster " + k + ": " + item + Environment.NewLine);
+                    if (j == 0) mean = finalMeans[i][j].ToString("F6");
+                    else mean = mean + " | " + finalMeans[i][j].ToString("F6");
                 }
+                File.AppendAllText(OutputFilePath.Text, "Cluster " + i + ": " + mean + Environment.NewLine);
             }
             File.AppendAllText(OutputFilePath.Text, Environment.NewLine + "== Tulps avg distance to centroids ==" + Environment.NewLine);
             for (int i = 0; i < avgDistances.Length; i++)
@@ -338,6 +349,8 @@ namespace DataAnalysis_Tool
             finalMeans = CalculateMeans(rawData, clustering, means);
             printClustersToList(clustering, finalMeans, data);
             avgDistances = CalcAvgDistancesTulpsInCluster(clustering, rawData, finalMeans);
+            avgMeansDistance = CalculateAvgDistanceBetweenMeans(finalMeans);
+            tbMeansAvgDist.Text = avgMeansDistance.ToString("F4");
 
             return clustering;
         }
@@ -400,6 +413,26 @@ namespace DataAnalysis_Tool
                     means[k][j] /= clusterCounts[k];
 
             return means;
+        }
+
+        private double CalculateAvgDistanceBetweenMeans(double[][] means)
+        {
+            double totalDistance = 0;
+
+            for (int i = 0; i < means.Length; i++)
+            {
+                double pointDist = 0;
+                for (int j = 0; j < means.Length; j++)
+                {
+                    double dist = 0;
+                    for (int k = 0; k < means[i].Length; k++)
+                        dist += (means[i][k] - means[j][k]) * (means[i][k] - means[j][k]);
+                    pointDist += Math.Sqrt(dist);  
+                }
+                totalDistance += pointDist;
+            }
+
+            return totalDistance/means.Length;
         }
 
         private double[][] Normalized(double[][] rawData)
